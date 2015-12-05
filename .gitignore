@@ -2,3 +2,6 @@
 *.class
 #bin directory
 source/bin/
+#project files
+*.project
+*.classpath
