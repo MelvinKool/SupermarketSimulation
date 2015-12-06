@@ -21,7 +21,7 @@ public class SupermarketController implements MouseListener{
 	public void actionPerformedSolve (ActionEvent ae){
 		System.out.println("Start button clicked");
 		//start the supermarket
-		//supermarket.execute();
+		//su.execute();
 	}
 	
 	//pause button
