@@ -7,25 +7,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPanel;
+import supermarket.model.Simulator;
 
 public class SupermarketPanel extends JPanel{
-	Integer paintSolutionIndex;
-	private final int PANELSIZE;
-	public final int AMOUNT_BLOCKS;
-	public final int CELLSIZE;
-	public SupermarketPanel(int panelSize,int numBlocks){
-		PANELSIZE = panelSize;
-		AMOUNT_BLOCKS = numBlocks;
-		CELLSIZE = panelSize/numBlocks;
+	public final int CELLSIZEX, CELLSIZEY;
+	Simulator simulator;
+	public SupermarketPanel(Simulator simulator, int panelSizeX, int panelSizeY){
+		this.simulator = simulator;
+		CELLSIZEX = panelSizeX / simulator.NUMCELLSX;
+		CELLSIZEY = panelSizeY / simulator.NUMCELLSY;
 		this.setBackground(Color.WHITE);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		if(paintSolutionIndex == null){
+//		if(paintSolutionIndex == null){
 			//paint pin holes
 //			g.setColor(new Color(102,51,0));
 //			for(int[] pin : solver.pinPositions){
@@ -44,8 +42,8 @@ public class SupermarketPanel extends JPanel{
 //				i++;
 ////				System.out.println();
 //			}
-			return;
-		}
+//			return;
+//		}
 		//paint blocks
 //		g.setColor(Color.BLACK);
 //		int x = 0, y = 0;

@@ -2,8 +2,6 @@ package supermarket.view;
 
 /*              GUI              */
 import java.awt.BorderLayout;
-import java.sql.SQLException;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -17,19 +15,22 @@ import javax.swing.JSplitPane;
 
 import databasemanager.DBConnection;
 import supermarket.controller.SupermarketController;
+import supermarket.model.Simulator;
 
 public class SupermarketFrame extends JFrame{
 	JList<String> solutionList;
-	DefaultListModel solutionListModel;
+	DefaultListModel<String> solutionListModel;
 	public SupermarketFrame(){
 		System.out.println("Building gui...");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		this.setTitle("Blockpuzzle solver v1.0");
-		SupermarketPanel solvingPanel = new SupermarketPanel(800,7);
+		this.setTitle("Supermarket simulation v1.0");
+		//make a simulation
+		Simulator simulator = new Simulator();
+		SupermarketPanel solvingPanel = new SupermarketPanel(simulator,800,800);
 		//add the controller 
-		SupermarketController controller = new SupermarketController(solvingPanel,this);
+		SupermarketController controller = new SupermarketController(solvingPanel,this,simulator);
 		solvingPanel.addMouseListener(controller);
 //		solvingPanel.setSize(350,350);
 		JPanel solutionPanel = new JPanel();
@@ -50,16 +51,14 @@ public class SupermarketFrame extends JFrame{
 		startBtn.addActionListener (ae -> controller.actionPerformedSolve (ae));
 		controlPanel.add(startBtn);
 		JButton pauseBtn = new JButton("Pause");
-		pauseBtn.setEnabled(false);
 		pauseBtn.addActionListener (ae -> controller.actionPerformedPause (ae));
 		controlPanel.add(pauseBtn);
 		JButton stopBtn = new JButton("Stop");
-		stopBtn.setEnabled(false);
 		stopBtn.addActionListener (ae -> controller.actionPerformedStop(ae));
 		controlPanel.add(stopBtn);
 		this.add(controlPanel,BorderLayout.SOUTH);
 //		this.pack();
-		this.setSize(1100, 900);
+		this.setSize(1200, 900);
 		System.out.println("Building gui done!");
 	}
 	
