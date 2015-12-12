@@ -1,4 +1,4 @@
-package supermarket;
+package supermarket.view;
 
 /*              GUI              */
 import java.awt.BorderLayout;
@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 //////////////////////////////////
+
+import supermarket.controller.SupermarketController;
 
 public class SupermarketFrame extends JFrame{
 	JList<String> solutionList;

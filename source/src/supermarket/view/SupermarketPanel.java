@@ -1,4 +1,4 @@
-package supermarket;
+package supermarket.view;
 
 import java.awt.Color;
 import java.awt.Graphics;

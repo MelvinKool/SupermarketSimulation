@@ -1,4 +1,4 @@
-package supermarket;
+package supermarket.controller;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
+
+import supermarket.view.SupermarketFrame;
+import supermarket.view.SupermarketPanel;
+
 import javax.swing.JList;
 
 public class SupermarketController implements MouseListener{
@@ -55,7 +59,7 @@ public class SupermarketController implements MouseListener{
 		System.out.println("Solution list clicked");
 		//show the selected solution
 //		JList templist = (JList)e.getSource();
-		board.paintSolutionIndex = frame.solutionList.getSelectedIndex();
+		//board.paintSolutionIndex = frame.solutionList.getSelectedIndex();
 		board.repaint();
 		
 	}
