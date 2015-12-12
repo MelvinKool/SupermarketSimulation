@@ -6,16 +6,15 @@ package databasemanager;
 import java.sql.*;
 
 public class DBConnection {
-	Connection con = null;
-	
+	public static Connection con = null;
 	/**
 	 * Opens the database connection
 	 * @return operation successful
 	 */
-	public boolean open(){
+	public static boolean open(){
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/supermarket","supermarketuser","V3ry$tr0ng-P@$$w0rd");
+			DBConnection.con = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/supermarket","supermarketuser","V3ry$tr0ng-P@$$w0rd");
 			return true;
 		} 
 		catch (ClassNotFoundException e) {
@@ -33,11 +32,11 @@ public class DBConnection {
 	 * Closes the connection
 	 * @return operation successful
 	 */
-	public boolean close(){
+	public static boolean close(){
 		try {
-			if(con != null || !con.isClosed()){
+			if(DBConnection.con != null || !DBConnection.con.isClosed()){
 				//test.close();
-				con.close();
+				DBConnection.con.close();
 			}
 			return true;
 		} catch (SQLException e) {
@@ -51,7 +50,7 @@ public class DBConnection {
 	 * @return whether the connection is closed
 	 * @throws SQLException 
 	 */
-	public boolean isClosed() throws SQLException{
-		return con.isClosed();
+	public static boolean isClosed() throws SQLException{
+		return DBConnection.con.isClosed();
 	}
 }

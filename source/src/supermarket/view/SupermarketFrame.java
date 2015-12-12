@@ -2,6 +2,7 @@ package supermarket.view;
 
 /*              GUI              */
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 //////////////////////////////////
 
+import databasemanager.DBConnection;
 import supermarket.controller.SupermarketController;
 
 public class SupermarketFrame extends JFrame{
