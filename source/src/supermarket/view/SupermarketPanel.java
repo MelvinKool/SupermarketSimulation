@@ -17,12 +17,13 @@ public class SupermarketPanel extends JPanel{
 		this.simulator = simulator;
 		CELLSIZEX = panelSizeX / simulator.NUMCELLSX;
 		CELLSIZEY = panelSizeY / simulator.NUMCELLSY;
-		this.setBackground(Color.WHITE);
+		super.setBackground(Color.WHITE);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		//paint the default supermarket
 //		if(paintSolutionIndex == null){
 			//paint pin holes
 //			g.setColor(new Color(102,51,0));

@@ -27,11 +27,12 @@ public class SupermarketFrame extends JFrame{
 		this.setLayout(new BorderLayout());
 		this.setTitle("Supermarket simulation v1.0");
 		//make a simulation
-		Simulator simulator = new Simulator();
-		SupermarketPanel solvingPanel = new SupermarketPanel(simulator,800,800);
+		Simulator simulator = new Simulator(null);
+		SupermarketPanel supermarketPanel = new SupermarketPanel(simulator,800,800);
+		simulator.setPanel(supermarketPanel);
 		//add the controller 
-		SupermarketController controller = new SupermarketController(solvingPanel,this,simulator);
-		solvingPanel.addMouseListener(controller);
+		SupermarketController controller = new SupermarketController(supermarketPanel,this,simulator);
+		supermarketPanel.addMouseListener(controller);
 //		solvingPanel.setSize(350,350);
 		JPanel solutionPanel = new JPanel();
 		solutionListModel = new DefaultListModel<String>();
@@ -39,7 +40,7 @@ public class SupermarketFrame extends JFrame{
 		solutionList.addMouseListener(controller);
 		//solutionPanel.add(solutionList);
 		solutionPanel.add(new JScrollPane(solutionList));
-		JSplitPane solutionPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,solutionPanel,solvingPanel);
+		JSplitPane solutionPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,solutionPanel,supermarketPanel);
 //		solutionPane.setSize(1000,700);
 		this.add(solutionPane,BorderLayout.CENTER);
 		JPanel controlPanel = new JPanel();

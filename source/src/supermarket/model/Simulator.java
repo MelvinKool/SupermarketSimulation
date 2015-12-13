@@ -4,14 +4,17 @@ import javax.swing.SwingWorker;
 
 import databasemanager.DBConnection;
 import databasemanager.DBSetup;
+import supermarket.view.SupermarketPanel;
 
 public class Simulator extends SwingWorker<Void,Void>{
+	SupermarketPanel panel;
 	boolean simulationRunning, simulationPaused;
 	long lastFpsTime;
 	int fps;
 	public final int NUMCELLSX = 100, NUMCELLSY = 100;
-	public Simulator(){
+	public Simulator(SupermarketPanel panel){
 		simulationRunning = false;
+		this.panel = panel;
 	}
 	
 	public Void doInBackground(){
@@ -21,8 +24,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
 
 		// keep looping around till the game ends
-		while (simulationRunning)
-		{
+		while (simulationRunning){
 			// work out how long its been since the last update, this
 			// will be used to calculate how far the entities should
 			// move this loop
@@ -37,8 +39,7 @@ public class Simulator extends SwingWorker<Void,Void>{
   
 			// update our FPS counter if a second has passed since
 			// we last recorded
-			if (lastFpsTime >= 1000000000)
-			{
+			if (lastFpsTime >= 1000000000){
 				System.out.println("(FPS: "+fps+")");
 				lastFpsTime = 0;
 				fps = 0;
@@ -86,14 +87,26 @@ public class Simulator extends SwingWorker<Void,Void>{
 		System.out.println("Setting up database succesful!");
 	}
 	
-	private void simpleUpdate(double delta)
-	{
-		System.out.println("Do an update!!!");
-	   //frequent updates
+	/**
+	 * Does the frequent updates
+	 * @param delta
+	 */
+	private void simpleUpdate(double delta){
+		//frequent updates
+		//check if product paths or departments need refilling
+		//check if a new cash desk needs to be opened
+		//check if products need to be ordered
 	}
 	
+	/**
+	 * Draws everything
+	 */
 	private void simpleRender(){
 		//draw everything
-		System.out.println("Draw everything!!!");
+		panel.repaint();
+	}
+	
+	public void setPanel(SupermarketPanel panel){
+		this.panel = panel;
 	}
 }
