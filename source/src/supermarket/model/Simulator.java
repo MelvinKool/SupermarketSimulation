@@ -3,6 +3,7 @@ package supermarket.model;
 import javax.swing.SwingWorker;
 
 import databasemanager.DBConnection;
+import databasemanager.DBSetup;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	boolean simulationRunning, simulationPaused;
@@ -14,9 +15,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 	}
 	
 	public Void doInBackground(){
-		System.out.println("simulation started");
-		simulationRunning = true;
-		DBConnection.open();
+		simpleInitApp();
 		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
@@ -46,10 +45,10 @@ public class Simulator extends SwingWorker<Void,Void>{
 			}
 
 			// update the game logic
-			doGameUpdates(delta);
+			simpleUpdate(delta);
 
 			// draw everything
-			render();
+			simpleRender();
 
 			// we want each frame to take 10 milliseconds, to do this
 			// we've recorded when we started the frame. We add 10 milliseconds
@@ -76,13 +75,24 @@ public class Simulator extends SwingWorker<Void,Void>{
 		simulationPaused = true;
 	}
 	
-	private void doGameUpdates(double delta)
+	private void simpleInitApp(){
+		System.out.println("simulation started");
+		simulationRunning = true;
+		System.out.println("Starting database connection...");
+		DBConnection.open();
+		System.out.println("Setting up a clean database...");
+		DBSetup setup = new DBSetup();
+		setup.setupNewDatabase();
+		System.out.println("Setting up database succesful!");
+	}
+	
+	private void simpleUpdate(double delta)
 	{
 		System.out.println("Do an update!!!");
 	   //frequent updates
 	}
 	
-	private void render(){
+	private void simpleRender(){
 		//draw everything
 		System.out.println("Draw everything!!!");
 	}

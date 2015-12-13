@@ -7,8 +7,7 @@ import java.util.List;
 public class DBSetup {
 	
 	/**
-	 * Creates the tables for a new database.
-	 * Only use this method when you have an empty database without tables!!!
+	 * Sets up a clean database
 	 */
 	public void setupNewDatabase(){
 		Connection con = DBConnection.getConnection();
@@ -18,6 +17,19 @@ public class DBSetup {
 		PreparedStatement prepStorageStatement = null;
 		try{
 			statement = con.createStatement();
+			//drop old data/tables
+			statements.add("DROP TABLE IF EXISTS Aankoop;");
+			statements.add("DROP TABLE IF EXISTS Kassa;");
+			statements.add("DROP TABLE IF EXISTS Werknemer;");
+			statements.add("DROP TABLE IF EXISTS Klant;");
+			statements.add("DROP TABLE IF EXISTS Magazijn;");
+			statements.add("DROP TABLE IF EXISTS Product_Opgesteld_Afdeling;");
+			statements.add("DROP TABLE IF EXISTS Product_Opgesteld_Pad;");
+			statements.add("DROP TABLE IF EXISTS Groep_Voorkeur_Product;");
+			statements.add("DROP TABLE IF EXISTS Product;");
+			statements.add("DROP TABLE IF EXISTS Afdeling;");
+			statements.add("DROP TABLE IF EXISTS Pad;");
+			statements.add("DROP TABLE IF EXISTS Groep;");
 			//create the tables
 			statements.add("CREATE TABLE IF NOT EXISTS Groep(groepid INT NOT NULL auto_increment PRIMARY KEY, naam varchar(50));");
 			statements.add("CREATE TABLE IF NOT EXISTS Pad(padid INT NOT NULL auto_increment PRIMARY KEY, naam varchar(50));");
@@ -59,17 +71,17 @@ public class DBSetup {
 			statements.add("INSERT INTO Product(naam,prijs) VALUES ('Old amsterdam 50+',2.50);");//14
 			statements.add("INSERT INTO Product(naam,prijs) VALUES ('Spareribs',1.50);");//15
 			//add groups
-			statements.add("INSERT INTO Groep('Student');");//1
-			statements.add("INSERT INTO Groep('Moeder');");//2
-			statements.add("INSERT INTO Groep('Alcoholist');");//3
-			statements.add("INSERT INTO Groep('Dikzak');");//4
+			statements.add("INSERT INTO Groep(naam) VALUES('Student');");//1
+			statements.add("INSERT INTO Groep(naam) VALUES('Moeder');");//2
+			statements.add("INSERT INTO Groep(naam) VALUES('Alcoholist');");//3
+			statements.add("INSERT INTO Groep(naam) VALUES('Dikzak');");//4
 			//add employees
-			statements.add("INSERT INTO Werknemer('Henkie');");//1
-			statements.add("INSERT INTO Werknemer('Pietertje');");//2
-			statements.add("INSERT INTO Werknemer('Erik');");//3
-			statements.add("INSERT INTO Werknemer('Klaas');");//4
-			statements.add("INSERT INTO Werknemer('Barrie');");//5
-			statements.add("INSERT INTO Werknemer('Elise');");//6
+			statements.add("INSERT INTO Werknemer(naam) VALUES('Henkie');");//1
+			statements.add("INSERT INTO Werknemer(naam) VALUES('Pietertje');");//2
+			statements.add("INSERT INTO Werknemer(naam) VALUES('Erik');");//3
+			statements.add("INSERT INTO Werknemer(naam) VALUES('Klaas');");//4
+			statements.add("INSERT INTO Werknemer(naam) VALUES('Barrie');");//5
+			statements.add("INSERT INTO Werknemer(naam) VALUES('Elise');");//6
 			//add preference products
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(1,4);");
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(1,9);");
