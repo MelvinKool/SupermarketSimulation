@@ -6,7 +6,8 @@ package databasemanager;
 import java.sql.*;
 
 public class DBConnection {
-	public static Connection con = null;
+	private static Connection con = null;
+	
 	/**
 	 * Opens the database connection
 	 * @return operation successful
@@ -45,6 +46,7 @@ public class DBConnection {
 		}
 		return false;
 	}
+	
 	/**
 	 * Checks whether the connection is closed.
 	 * @return whether the connection is closed
@@ -52,5 +54,13 @@ public class DBConnection {
 	 */
 	public static boolean isClosed() throws SQLException{
 		return DBConnection.con.isClosed();
+	}
+	
+	/**
+	 * Gets the connection
+	 * @return the connection
+	 */
+	public static Connection getConnection(){
+		return con;
 	}
 }
