@@ -29,7 +29,6 @@ public class Simulator extends SwingWorker<Void,Void>{
 	
 	public Void doInBackground(){
 		simpleInitApp();
-		System.out.println("TESTTTT");
 		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
@@ -82,7 +81,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public void stop(){
 		simulationRunning = false;
 	}
-	
+
 	private void simpleInitApp(){
 		System.out.println("simulation started");
 		simulationRunning = true;
@@ -94,65 +93,55 @@ public class Simulator extends SwingWorker<Void,Void>{
 		System.out.println("Setting up database succesful!");
 		//occupy cells with objects standing on it
 		//cheese
-		System.out.println("Test");
 		for(int y = 0; y < 6; y ++){
 			for(int x = 0; x < 6; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("test2");
 		//freezer
 		for(int y = 2; y < 6; y ++){
-			for(int x = 10; x < 21; x++){
+			for(int x = 10; x < 22; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("test3");
 		//flesh
 		for(int y = 0; y < 6; y ++){
-			for(int x = 25; x < 31; x++){
+			for(int x = 25; x < 30; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("test4");
 		//non-food
 		for(int y = 10; y < 21; y ++){
-			for(int x = 0; x < 4; x++){
+			for(int x = 0; x < 6; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("test4");
 		//conserves
 		for(int y = 10; y < 21; y ++){
 			for(int x = 10; x < 15; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("test5");
 		//chips
 		for(int y = 10; y < 21; y ++){
 			for(int x = 17; x < 22; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("test6");
 		//alcohol
 		for(int y = 10; y < 21; y ++){
-			for(int x = 25; x < 31; x++){
+			for(int x = 25; x < 30; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
-		System.out.println("Setup default occupied cells");
-		panel.repaint();
-		System.out.println("rEPAINTED");
 		//cash desks
-//		for(int y = 0; y < 6; y ++)
-//			for(int x = 0; x < 6; x++)
-//				occupiedCells[y][x] = true;
+		for(int y = 0; y < 6; y ++)
+			for(int x = 0; x < 6; x++)
+				occupiedCells[y][x] = true;
 		//ports
-//		for(int y = 0; y < 6; y ++)
-//			for(int x = 0; x < 6; x++)
-//				occupiedCells[y][x] = true;
+		for(int y = 0; y < 6; y ++)
+			for(int x = 0; x < 6; x++)
+				occupiedCells[y][x] = true;
 	}
 	
 	/**
