@@ -2,27 +2,27 @@ package supermarket.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import supermarket.model.Simulator;
 
 public class SupermarketPanel extends JPanel{
 	public final int CELLSIZEX, CELLSIZEY;
 	Simulator simulator;
+	//private final Graphics DEFAULTPANELCANVAS;
 	public SupermarketPanel(Simulator simulator, int panelSizeX, int panelSizeY){
 		this.simulator = simulator;
 		CELLSIZEX = panelSizeX / simulator.NUMCELLSX;
 		CELLSIZEY = panelSizeY / simulator.NUMCELLSY;
 		super.setBackground(Color.WHITE);
+		//DEFAULTPANELCANVAS = drawDefaultSupermarket(g);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		drawDefaultSupermarket(g);
 		//paint the default supermarket
 //		if(paintSolutionIndex == null){
 			//paint pin holes
@@ -41,7 +41,7 @@ public class SupermarketPanel extends JPanel{
 //					g.fillOval(j + CELLSIZE / 2, i + CELLSIZE /2, CELLSIZE / 2, CELLSIZE / 2);
 //				}
 //				i++;
-////				System.out.println();
+////				System.out.printlcleaning_materials_2__n();
 //			}
 //			return;
 //		}
@@ -68,9 +68,35 @@ public class SupermarketPanel extends JPanel{
 //		}
 	}
 	
+	private void drawDefaultSupermarket(Graphics g){
+		BufferedImage image;
+		//g.drawImage(img, x, y, observer);
+		//draw a line on the y axis
+		g.drawLine(CELLSIZEX * simulator.NUMCELLSX,CELLSIZEY * simulator.NUMCELLSY, CELLSIZEX * simulator.NUMCELLSX,0);
+		//draw a line on the x axis
+		g.drawLine(0, CELLSIZEY * simulator.NUMCELLSY, CELLSIZEX * simulator.NUMCELLSX, CELLSIZEY * simulator.NUMCELLSY);
+		for(int j = 0; j < simulator.NUMCELLSY; j++){
+			for(int i = 0; i < simulator.NUMCELLSX; i++){
+				if(simulator.occupiedCells[j][i]){
+					g.fillRect(i*CELLSIZEX, j*CELLSIZEY, CELLSIZEX, CELLSIZEY);
+				}
+			}
+		}
+	}
 	public void mouseClicked(MouseEvent e) {
 		//do something with the panel
 	}
+	
+//	/**
+//	 * Draws the default graphics object of the supermarket
+//	 * for drawing optimalisation
+//	 * @return
+//	 */
+//	private Graphics drawDefaultSupermarketObject(){
+//		Graphics g = null;
+//		g.draw
+//		return g;
+//	}
 //	public void placePole(int x, int y){
 //		Point p = new Point(x,y);
 //		if(!placedPoles.contains(p)){

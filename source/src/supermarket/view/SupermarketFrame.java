@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 //////////////////////////////////
 
-import databasemanager.DBConnection;
 import supermarket.controller.SupermarketController;
 import supermarket.model.Simulator;
 
@@ -36,7 +35,7 @@ public class SupermarketFrame extends JFrame{
 //		solvingPanel.setSize(350,350);
 		JPanel solutionPanel = new JPanel();
 		solutionListModel = new DefaultListModel<String>();
-		solutionList = new JList(solutionListModel);
+		solutionList = new JList<String>(solutionListModel);
 		solutionList.addMouseListener(controller);
 		//solutionPanel.add(solutionList);
 		solutionPanel.add(new JScrollPane(solutionList));

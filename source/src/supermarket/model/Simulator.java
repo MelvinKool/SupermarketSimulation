@@ -1,5 +1,8 @@
 package supermarket.model;
 
+import java.awt.Point;
+import java.util.HashMap;
+
 import javax.swing.SwingWorker;
 
 import databasemanager.DBConnection;
@@ -8,17 +11,25 @@ import supermarket.view.SupermarketPanel;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	SupermarketPanel panel;
-	boolean simulationRunning, simulationPaused;
+	boolean simulationRunning;
 	long lastFpsTime;
 	int fps;
-	public final int NUMCELLSX = 100, NUMCELLSY = 100;
+	public final int NUMCELLSX, NUMCELLSY;
+	public boolean[][] occupiedCells;
+	//maps a productid to a location
+	HashMap<Integer,Point[]> productLocations;
+	
 	public Simulator(SupermarketPanel panel){
 		simulationRunning = false;
 		this.panel = panel;
+		NUMCELLSX = 30;
+		NUMCELLSY = 40;
+		occupiedCells = new boolean[NUMCELLSY][NUMCELLSX];
 	}
 	
 	public Void doInBackground(){
 		simpleInitApp();
+		System.out.println("TESTTTT");
 		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
@@ -72,10 +83,6 @@ public class Simulator extends SwingWorker<Void,Void>{
 		simulationRunning = false;
 	}
 	
-	public void pause(){
-		simulationPaused = true;
-	}
-	
 	private void simpleInitApp(){
 		System.out.println("simulation started");
 		simulationRunning = true;
@@ -85,6 +92,67 @@ public class Simulator extends SwingWorker<Void,Void>{
 		DBSetup setup = new DBSetup();
 		setup.setupNewDatabase();
 		System.out.println("Setting up database succesful!");
+		//occupy cells with objects standing on it
+		//cheese
+		System.out.println("Test");
+		for(int y = 0; y < 6; y ++){
+			for(int x = 0; x < 6; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("test2");
+		//freezer
+		for(int y = 2; y < 6; y ++){
+			for(int x = 10; x < 21; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("test3");
+		//flesh
+		for(int y = 0; y < 6; y ++){
+			for(int x = 25; x < 31; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("test4");
+		//non-food
+		for(int y = 10; y < 21; y ++){
+			for(int x = 0; x < 4; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("test4");
+		//conserves
+		for(int y = 10; y < 21; y ++){
+			for(int x = 10; x < 15; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("test5");
+		//chips
+		for(int y = 10; y < 21; y ++){
+			for(int x = 17; x < 22; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("test6");
+		//alcohol
+		for(int y = 10; y < 21; y ++){
+			for(int x = 25; x < 31; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		System.out.println("Setup default occupied cells");
+		panel.repaint();
+		System.out.println("rEPAINTED");
+		//cash desks
+//		for(int y = 0; y < 6; y ++)
+//			for(int x = 0; x < 6; x++)
+//				occupiedCells[y][x] = true;
+		//ports
+//		for(int y = 0; y < 6; y ++)
+//			for(int x = 0; x < 6; x++)
+//				occupiedCells[y][x] = true;
 	}
 	
 	/**

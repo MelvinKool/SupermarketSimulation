@@ -1,0 +1,11 @@
+spawnlocations: x= 1 y = 40
+
+cheese: 0,0 - 5,5
+freezer: 10,2 - 20,5
+flesh: 25,0  - 30,5
+non-food: 0,10 - 3,20
+conserves: 10,10 - 14,20
+chips 17,10 - 21,20
+alcohol 25,10 - 30,20
+cash desks
+ports
