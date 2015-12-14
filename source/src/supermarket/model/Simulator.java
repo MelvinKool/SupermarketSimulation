@@ -16,7 +16,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 	int fps;
 	public final int NUMCELLSX, NUMCELLSY;
 	public boolean[][] occupiedCells;
-	//maps a productid to a location
+	//maps a product id to a location
 	HashMap<Integer,Point[]> productLocations;
 	
 	public Simulator(SupermarketPanel panel){
@@ -27,12 +27,14 @@ public class Simulator extends SwingWorker<Void,Void>{
 		occupiedCells = new boolean[NUMCELLSY][NUMCELLSX];
 	}
 	
+	/**
+	 * Background thread for processing, called by the execute method
+	 */
 	public Void doInBackground(){
 		simpleInitApp();
 		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
-
 		// keep looping around till the game ends
 		while (simulationRunning){
 			// work out how long its been since the last update, this
@@ -42,11 +44,9 @@ public class Simulator extends SwingWorker<Void,Void>{
 			long updateLength = now - lastLoopTime;
 			lastLoopTime = now;
 			double delta = updateLength / ((double)OPTIMAL_TIME);
-
 			// update the frame counter
 			lastFpsTime += updateLength;
 			fps++;
-  
 			// update our FPS counter if a second has passed since
 			// we last recorded
 			if (lastFpsTime >= 1000000000){
@@ -54,13 +54,10 @@ public class Simulator extends SwingWorker<Void,Void>{
 				lastFpsTime = 0;
 				fps = 0;
 			}
-
 			// update the game logic
 			simpleUpdate(delta);
-
 			// draw everything
 			simpleRender();
-
 			// we want each frame to take 10 milliseconds, to do this
 			// we've recorded when we started the frame. We add 10 milliseconds
 			// to this and then factor in the current time to give 
@@ -146,7 +143,9 @@ public class Simulator extends SwingWorker<Void,Void>{
 	
 	/**
 	 * Does the frequent updates
-	 * @param delta
+	 * @param delta how far the entities should move
+	 * This is used for compensating the difference 
+	 * of time between updates.
 	 */
 	private void simpleUpdate(double delta){
 		//frequent updates
