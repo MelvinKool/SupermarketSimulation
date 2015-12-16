@@ -2,16 +2,20 @@ package supermarket.model;
 
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.SwingWorker;
+import javax.swing.SwingWorker.StateValue;
 
 import databasemanager.DBConnection;
 import databasemanager.DBSetup;
 import supermarket.view.SupermarketPanel;
+import supermarket.model.astar.AStar;;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	SupermarketPanel panel;
 	boolean simulationRunning;
+	public boolean b = false;
 	long lastFpsTime;
 	int fps;
 	public final int NUMCELLSX, NUMCELLSY;
@@ -89,6 +93,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 		setup.setupNewDatabase();
 		System.out.println("Setting up database succesful!");
 		//occupy cells with objects standing on it
+		occupiedCells[29][29] = true;
 		//cheese
 		for(int y = 0; y < 6; y ++){
 			for(int x = 0; x < 6; x++){
@@ -139,6 +144,11 @@ public class Simulator extends SwingWorker<Void,Void>{
 		for(int y = 0; y < 6; y ++)
 			for(int x = 0; x < 6; x++)
 				occupiedCells[y][x] = true;
+		AStar astar = new AStar(this);
+		List<Point> shortestPath = astar.computeShortestPath(new Point(25,28), new Point(6,7));
+		for(Point p : shortestPath){
+			System.out.println("X = " + p.x + " Y = " + p.y);
+		}
 	}
 	
 	/**

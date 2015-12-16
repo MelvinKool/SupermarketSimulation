@@ -1,17 +1,19 @@
 package supermarket.view.object;
 
+import java.awt.Graphics;
+
+import supermarket.model.customer.Customer;
+
 public class CustomerView extends PaintableObject{
-
-	@Override
-	public void paintObject(int x, int y, String text) {
-		if(text != null){
-			//draw the text
-		}
+	Customer customer;
+	
+	public CustomerView(Customer customer){
+		this.customer = customer;
 	}
-
+	
 	@Override
-	public void paintObject(int x, int y) {
-		paintObject(x,y,null);
+	public void paintObject(Graphics g,int x, int y) {
+		
 	}
 
 }
