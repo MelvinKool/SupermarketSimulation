@@ -39,8 +39,6 @@ public class SupermarketController implements MouseListener{
 	public void actionPerformedPause (ActionEvent ae){
 		System.out.println("Pause button clicked");
 //		if(simulation.getState() == StateValue.STARTED)
-		simulation.b = !simulation.b;
-		System.out.println(simulation.b);
 	}
 		
 	//stop button

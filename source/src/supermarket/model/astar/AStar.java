@@ -3,12 +3,18 @@ package supermarket.model.astar;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import supermarket.model.Simulator;
 
 public class AStar {
+	/**
+	 * A star Node
+	 * @author melvin
+	 *
+	 */
 	private class Node{
-		int x,y, gCost ,hCost;
+		int x,y, gCost,hCost;
 		Node previousNode;
 		public Node(int x, int y){
 			this.x = x;
@@ -18,51 +24,62 @@ public class AStar {
 			return gCost + hCost;
 		}
 	}
+//	private class NodeList<T> extends ArrayList<T>{
+//		
+//	}
 	private final int EDGEWISECOST = 14, STRAIGHTCOST = 10;
 	private List<Node> closedList;
 	private List<Node> openList;
 	private Simulator simulator;
 	public AStar(Simulator simulator){
 		this.simulator = simulator;
+		closedList = new ArrayList<Node>();
+		openList = new ArrayList<Node>();
 	}
-	
+
 	/**
 	 * Computes the path between a list
 	 * @param from
 	 * @param to
 	 * @param occupiedNodes
-	 * @return
+	 * @return The path if found, otherwise null
 	 */
 	public List<Point> computeShortestPath(Point from, Point to){
-		closedList = new ArrayList<Node>();
-		openList = new ArrayList<Node>();
-		//add the start node to the open list
-		Node startingNode = new Node(from.x,from.y);
-		Node targetNode = new Node(from.x,from.y);
-		openList.add(startingNode);
-		Node currentNode;
+		openList.clear();
+		closedList.clear();
+		Node start = new Node(from.x,from.y);
+		Node goal = new Node(to.x,to.y);
+		//the start or finish is an occupied node
+		if(!validateNode(start.x, start.y) || !validateNode(goal.x,goal.y)){
+			return null;
+		}
+		start.gCost = 0;
+		start.hCost = getDistance(start, goal);
+		openList.add(start);
+		Node current;
 		while(openList.size() > 0){
-			currentNode = openList.get(0);
-			currentNode = getLowestFCostNode(currentNode);
-			openList.remove(currentNode);
-			closedList.add(currentNode);
-			//end node reached
-			if(currentNode.x == to.x && currentNode.y == to.y)
-				return traceBackRoute(currentNode,startingNode);
-			for(Node neighbour : getNeighbourNodes(currentNode)){
-				if(closedList.contains(neighbour))
+			current = openList.get(0);
+			current = getLowestFCostNode();
+			if(current.x == goal.x && current.y == goal.y)
+				return traceBackRoute(current, start);
+			openList.remove(current);
+			closedList.add(current);
+			for(Node neighbour: getNeighbourNodes(current)){
+//				System.out.println("closedList contains neighbour" + closedList);
+				if(closedList.stream().anyMatch(neighbourNode -> neighbourNode.x == neighbour.x && neighbourNode.y == neighbour.y))
 					continue;
-				int newMovementCostToNeighbour = currentNode.gCost + getDistance(currentNode,neighbour);
-				if(newMovementCostToNeighbour < neighbour.gCost || !openList.contains(neighbour)){
-					neighbour.gCost = newMovementCostToNeighbour;
-					neighbour.hCost = getDistance(neighbour, targetNode);
-					neighbour.previousNode = currentNode;
-					if(!openList.contains(neighbour))
-						openList.add(neighbour);
-				}
+//				System.out.println("Yes");
+				int tentative_gCost = current.gCost + getDistance(current, neighbour);
+				if(!openList.stream().anyMatch(neighbourNode -> neighbourNode.x == neighbour.x && neighbourNode.y == neighbour.y))
+					openList.add(neighbour);
+				else if(tentative_gCost >= neighbour.gCost)
+					continue;//the current path to the neighbour is worse
+				neighbour.previousNode = current;
+				neighbour.gCost = tentative_gCost;
+				neighbour.hCost = getDistance(neighbour, goal);
 			}
 		}
-		//there is no way to the end point
+		System.out.println("There is no path to that location");
 		return null;
 	}
 	
@@ -70,22 +87,29 @@ public class AStar {
 		int distX = Math.abs(a.x - b.x);
 		int distY = Math.abs(a.y - b.y);
 		if(distX>distY)
-			return 14*distY + 10*(distX - distY);
-		return 14*distX + 10 * (distY-distX);
+			return EDGEWISECOST*distY + STRAIGHTCOST*(distX - distY);
+		return EDGEWISECOST*distX + STRAIGHTCOST * (distY-distX);
 	}
 	
-	private Node getLowestFCostNode(Node currentNode){
-		Node lowestNode = openList.get(0);
+	private Node getLowestFCostNode(){
+		Node lowestFCostNode = openList.get(0);
 		for(Node n : openList){
-			if(n.getFCost() < lowestNode.getFCost() || n.getFCost() == lowestNode.getFCost() && n.hCost < currentNode.hCost){
-				lowestNode = n;
+			if(n.getFCost() < lowestFCostNode.getFCost() || n.getFCost() == lowestFCostNode.getFCost() && n.hCost < lowestFCostNode.hCost){
+				lowestFCostNode = n;
 			}
 		}
-		return lowestNode;
+		return lowestFCostNode;
 	}
 	
+	/**
+	 * Gets the neighbours of the current node
+	 * @param current
+	 * @return list of neighbours
+	 */
 	private List<Node> getNeighbourNodes(Node current){
 		List<Node> neighbours = new ArrayList<Node>();
+		//temporary neighbour
+		Node neighbour;
 		for(int y = -1; y < 2;y++){
 			for(int x = -1; x < 2; x++){
 				//the current node's position
@@ -94,7 +118,23 @@ public class AStar {
 				int checkX = current.x + x;
 				int checkY = current.y + y;
 				if(validateNode(checkX,checkY)){
-					neighbours.add(new Node(checkX,checkY));
+					//if this neighbour is in closed or open list, return that one, else return new node
+					try{
+						neighbour = getFromNodeList(openList, checkX, checkY);
+					}
+					catch(NoSuchElementException notFoundInOpenList){
+						//try searching the closed list
+						try{
+							neighbour = getFromNodeList(closedList, checkX, checkY);
+						}
+						catch(NoSuchElementException notFoundInClosedList){
+							neighbour = new Node(checkX,checkY);
+						}
+					}
+					catch(Exception ex){
+						continue;
+					}
+					neighbours.add(neighbour);
 				}
 			}
 		}
@@ -102,8 +142,21 @@ public class AStar {
 	}
 	
 	private boolean validateNode(int x, int y){
-		return !simulator.occupiedCells[y][x] && (x >= 0 && x < simulator.NUMCELLSX && y >= 0 && y < simulator.NUMCELLSY);
+		return (x >= 0 && x < simulator.NUMCELLSX && y >= 0 && y < simulator.NUMCELLSY) && (!simulator.occupiedCells[y][x]);
 	}
+	
+	/**
+	 * Searches a list of nodes for the node with the specified x and y coordinates
+	 * @param nodeList: List of nodes
+	 * @param x
+	 * @param y
+	 * @return the node if found
+	 * @throws NoSuchElementException
+	 */
+	private Node getFromNodeList(List<Node> nodeList, int x, int y) throws NoSuchElementException{
+		return nodeList.stream().filter(openNode -> openNode.x == x && openNode.y == y).findFirst().get();
+	}
+	
 	/**
 	 * Traces back a route from the end node to the starting node
 	 * @param endNode
