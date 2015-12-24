@@ -11,6 +11,7 @@ import databasemanager.DBConnection;
 import databasemanager.DBSetup;
 import supermarket.view.SupermarketPanel;
 import supermarket.model.astar.AStar;
+import supermarket.model.customer.*;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	SupermarketPanel panel;
@@ -19,6 +20,8 @@ public class Simulator extends SwingWorker<Void,Void>{
 	int fps;
 	public final int NUMCELLSX, NUMCELLSY;
 	public boolean[][] occupiedCells;
+	public List<Customer> customers;
+	public List<Employee> employees;
 	//maps a product id to a location
 	HashMap<Integer,Point[]> productLocations;
 	
@@ -146,11 +149,9 @@ public class Simulator extends SwingWorker<Void,Void>{
 		for(int y = 0; y < NUMCELLSY; y ++)
 			for(int x = 0; x < NUMCELLSX; x++)
 				allpoints.add(new Point(x,y));
-		AStar astar = new AStar(this);
-		List<Point> shortestPath = astar.computeShortestPath(new Point(6,6), new Point(23,4));
-		List<Point> shortestPath2 = astar.computeShortestPath(new Point(23,4), new Point(6,6));
-		System.out.println(shortestPath);
-		System.out.println(shortestPath2);
+		customers.add(new Student(8,8));
+//		AStar astar = new AStar(this);
+//		System.out.println(astar.computeShortestPath(new Point(16,0), new Point(16,22)));
 //		for(int y = 0; y < NUMCELLSY; y ++)
 //			for(int x = 0; x < NUMCELLSX; x++)
 //				for(Point p : allpoints){

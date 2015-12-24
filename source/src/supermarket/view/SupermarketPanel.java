@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import supermarket.model.Simulator;
+import supermarket.model.customer.*;
+import supermarket.view.object.*;
 
 public class SupermarketPanel extends JPanel{
 	public final int CELLSIZEX, CELLSIZEY;
@@ -22,7 +24,7 @@ public class SupermarketPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		drawDefaultSupermarket(g);
+		paintDefaultSupermarket(g);
 		//paint the default supermarket
 //		if(paintSolutionIndex == null){
 			//paint pin holes
@@ -68,7 +70,7 @@ public class SupermarketPanel extends JPanel{
 //		}
 	}
 	
-	private void drawDefaultSupermarket(Graphics g){
+	private void paintDefaultSupermarket(Graphics g){
 		BufferedImage image;
 		//g.drawImage(img, x, y, observer);
 		//draw a line on the y axis
@@ -81,6 +83,18 @@ public class SupermarketPanel extends JPanel{
 					g.fillRect(i*CELLSIZEX, j*CELLSIZEY, CELLSIZEX, CELLSIZEY);
 				}
 			}
+		}
+	}
+	
+	private void paintPersons(Graphics g){
+		CustomerView customerView;
+		for(Customer customer : simulator.customers){
+			//paint customer
+			customerView = new StudentView(customer);
+			customerView.paintObject(g, customer.x, customer.y);
+		}
+		for(Employee employee : simulator.employees){
+			//paint employee
 		}
 	}
 	public void mouseClicked(MouseEvent e) {
