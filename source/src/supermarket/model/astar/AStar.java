@@ -166,7 +166,7 @@ public class AStar {
 	private List<Point> traceBackRoute(Node endNode, Node startingNode){
 		List<Point> route = new ArrayList<Point>();
 		Node temp = endNode;
-		while(temp.x != startingNode.x && temp.y != startingNode.y){
+		while(!(temp.x == startingNode.x && temp.y == startingNode.y)){
 			//add the new item before, because it's the previous node
 			route.add(0,new Point(temp.x,temp.y));
 			//go to the previous node
