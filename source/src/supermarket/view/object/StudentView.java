@@ -15,7 +15,7 @@ public class StudentView extends CustomerView{
 	@Override
 	public void paintObject(Graphics g, int x, int y) {
 		// TODO Auto-generated method stub
-		g.fillOval(x, y, C, height);
+		g.fillOval(x, y, width, height);
 	}
 
 	@Override

@@ -31,6 +31,8 @@ public class Simulator extends SwingWorker<Void,Void>{
 		NUMCELLSX = 30;
 		NUMCELLSY = 40;
 		occupiedCells = new boolean[NUMCELLSY][NUMCELLSX];
+		customers = new ArrayList<Customer>();
+		employees = new ArrayList<Employee>();
 	}
 	
 	/**
@@ -150,6 +152,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 			for(int x = 0; x < NUMCELLSX; x++)
 				allpoints.add(new Point(x,y));
 		customers.add(new Student(8,8));
+		customers.add(new Podge(8, 12));
 //		AStar astar = new AStar(this);
 //		System.out.println(astar.computeShortestPath(new Point(16,0), new Point(16,22)));
 //		for(int y = 0; y < NUMCELLSY; y ++)

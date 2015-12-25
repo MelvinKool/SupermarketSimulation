@@ -25,6 +25,7 @@ public class SupermarketPanel extends JPanel{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		paintDefaultSupermarket(g);
+		paintPersons(g);
 		//paint the default supermarket
 //		if(paintSolutionIndex == null){
 			//paint pin holes
@@ -90,13 +91,14 @@ public class SupermarketPanel extends JPanel{
 		CustomerView customerView;
 		for(Customer customer : simulator.customers){
 			//paint customer
-			customerView = new StudentView(customer);
-			customerView.paintObject(g, customer.x, customer.y);
+//			customerView = new 
+//			customerView.paintObject(g, (int)customer.x * CELLSIZEX, (int)customer.y * CELLSIZEY);
 		}
 		for(Employee employee : simulator.employees){
 			//paint employee
 		}
 	}
+	
 	public void mouseClicked(MouseEvent e) {
 		//do something with the panel
 	}

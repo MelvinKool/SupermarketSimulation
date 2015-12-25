@@ -9,6 +9,12 @@ public abstract class CustomerView extends PaintableObject{
 	Customer customer;
 	
 	public CustomerView(Customer customer){
+		super(15,15);
+		this.customer = customer;
+	}
+	
+	protected CustomerView(Customer customer, int width, int height){
+		super(width,height);
 		this.customer = customer;
 	}
 

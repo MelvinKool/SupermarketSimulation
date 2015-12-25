@@ -1,8 +1,8 @@
 package supermarket.model.customer;
 
 public abstract class Person {
-	public int x,y;
-	public Person(int spawnX, int spawnY) {
+	public double x,y;
+	public Person(double spawnX, double spawnY) {
 		x = spawnX;
 		y = spawnY;
 	}

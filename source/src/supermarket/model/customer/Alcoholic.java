@@ -1,7 +1,7 @@
 package supermarket.model.customer;
 
 public class Alcoholic extends Customer{
-	public Alcoholic(int spawnX, int spawnY){
+	public Alcoholic(double spawnX, double spawnY){
 		super(spawnX, spawnY);
 	}
 	@Override

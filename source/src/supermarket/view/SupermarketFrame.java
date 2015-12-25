@@ -58,7 +58,7 @@ public class SupermarketFrame extends JFrame{
 		controlPanel.add(stopBtn);
 		this.add(controlPanel,BorderLayout.SOUTH);
 //		this.pack();
-		this.setSize(1200, 900);
+		this.setSize(1065, 865);
 		System.out.println("Building gui done!");
 	}
 	

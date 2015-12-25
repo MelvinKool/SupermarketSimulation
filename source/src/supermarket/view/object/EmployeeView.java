@@ -9,6 +9,7 @@ public class EmployeeView extends PaintableObject{
 	Employee employee;
 	
 	public EmployeeView(Employee employee){
+		super(15,15);
 		this.employee = employee;
 	}
 	

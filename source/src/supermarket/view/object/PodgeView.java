@@ -12,7 +12,7 @@ import supermarket.model.customer.Customer;
 public class PodgeView extends CustomerView{
 	
 	public PodgeView(Customer customer){
-		super(customer);
+		super(customer,20,20);
 		
 	}
 

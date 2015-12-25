@@ -1,7 +1,7 @@
 package supermarket.model.customer;
 
 public abstract class Customer extends Person{
-	public Customer(int spawnX, int spawnY){
+	public Customer(double spawnX, double spawnY){
 		super(spawnX, spawnY);
 	}
 }
