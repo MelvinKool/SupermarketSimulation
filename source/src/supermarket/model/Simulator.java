@@ -142,14 +142,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 				occupiedCells[y][x] = true;
 			}
 		}
-		//cash desks
-		for(int y = 0; y < 6; y ++)
-			for(int x = 0; x < 6; x++)
-				occupiedCells[y][x] = true;
-		//ports
-		for(int y = 0; y < 6; y ++)
-			for(int x = 0; x < 6; x++)
-				occupiedCells[y][x] = true;
+		
 //		List<Point> allpoints = new ArrayList<Point>();
 //		for(int y = 0; y < NUMCELLSY; y ++)
 //			for(int x = 0; x < NUMCELLSX; x++)
