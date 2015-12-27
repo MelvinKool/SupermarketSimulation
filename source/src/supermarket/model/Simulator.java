@@ -1,10 +1,13 @@
 package supermarket.model;
 
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
 
 import databasemanager.DBConnection;
@@ -147,10 +150,10 @@ public class Simulator extends SwingWorker<Void,Void>{
 		for(int y = 0; y < 6; y ++)
 			for(int x = 0; x < 6; x++)
 				occupiedCells[y][x] = true;
-		List<Point> allpoints = new ArrayList<Point>();
-		for(int y = 0; y < NUMCELLSY; y ++)
-			for(int x = 0; x < NUMCELLSX; x++)
-				allpoints.add(new Point(x,y));
+//		List<Point> allpoints = new ArrayList<Point>();
+//		for(int y = 0; y < NUMCELLSY; y ++)
+//			for(int x = 0; x < NUMCELLSX; x++)
+//				allpoints.add(new Point(x,y));
 		customers.add(new Student(8, 8));
 		customers.add(new Podge(8, 12));
 //		AStar astar = new AStar(this);

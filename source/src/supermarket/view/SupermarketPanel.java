@@ -2,8 +2,13 @@ package supermarket.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import supermarket.model.Simulator;
 import supermarket.model.person.*;
@@ -11,6 +16,7 @@ import supermarket.view.object.*;
 
 public class SupermarketPanel extends JPanel{
 	public final double CELLSIZEX, CELLSIZEY;
+	public static BufferedImage flesh,beer,captainMorgan,chips,nonFood,corn,pizza,sale,spam;
 	Simulator simulator;
 	//private final Graphics DEFAULTPANELCANVAS;
 	public SupermarketPanel(Simulator simulator, int panelSizeX, int panelSizeY){
@@ -19,6 +25,7 @@ public class SupermarketPanel extends JPanel{
 		CELLSIZEY = (double)panelSizeY / (double)simulator.NUMCELLSY;
 		System.out.println("CELLSIZE : " + CELLSIZEX + "  " + CELLSIZEY);
 		super.setBackground(Color.WHITE);
+		initImages();
 		//DEFAULTPANELCANVAS = drawDefaultSupermarket(g);
 	}
 
@@ -77,8 +84,7 @@ public class SupermarketPanel extends JPanel{
 	 * @param g
 	 */
 	private void paintDefaultSupermarket(Graphics g){
-		BufferedImage image;
-		//g.drawImage(img, x, y, observer);
+		paintImageRepeatedInRegion(g, SupermarketPanel.beer, 50, 50, 200, 500);
 		//draw a line on the y axis
 		int outerX, outerY;
 		outerX = calculatePosX(simulator.NUMCELLSX);
@@ -87,13 +93,13 @@ public class SupermarketPanel extends JPanel{
 		g.drawLine(outerX,0, outerX,outerY);
 		//horizontal line
 		g.drawLine(0, outerY, outerX, outerY);
-		for(int j = 0; j < simulator.NUMCELLSY; j++){
-			for(int i = 0; i < simulator.NUMCELLSX; i++){
-				if(simulator.occupiedCells[j][i]){
-					g.fillRect(calculatePosX(i), calculatePosY(j), (int)CELLSIZEX, (int)CELLSIZEY);
-				}
-			}
-		}
+//		for(int j = 0; j < simulator.NUMCELLSY; j++){
+//			for(int i = 0; i < simulator.NUMCELLSX; i++){
+//				if(simulator.occupiedCells[j][i]){
+//					g.fillRect(calculatePosX(i), calculatePosY(j), (int)CELLSIZEX, (int)CELLSIZEY);
+//				}
+//			}
+//		}
 	}
 	
 	/**
@@ -121,6 +127,43 @@ public class SupermarketPanel extends JPanel{
 		}
 	}
 	
+	private void paintImageRepeatedInRegion(Graphics g, BufferedImage img,int x1,int y1,int x2,int y2){
+		int imgHeight = img.getWidth(this);
+		int imgWidth = img.getWidth(this);
+		int remainingWidth = x2 - x1;
+		int remainingHeight = y2 - y1;
+		Image subImageX = null, subImageY = null,subImageXY;
+		boolean subImageCreatedX = false, subImageCreatedY = false;
+		if(imgWidth > 0 && imgHeight > 0)
+			for(int y = y1; y < y2; y += y2 - y > imgHeight ? imgHeight : remainingHeight){
+				remainingHeight = y2 -y;
+				for(int x = x1; x < x2; x += x2 - x > imgWidth ? imgWidth : remainingWidth){
+					remainingWidth = x2 - x;
+					if(remainingWidth < imgWidth && remainingHeight < imgHeight){
+						subImageXY = img.getSubimage(0, 0, remainingWidth, remainingHeight);
+						g.drawImage(subImageXY, x, y, remainingWidth, remainingHeight, this);
+					}
+					else if(remainingWidth < imgWidth){
+						if(!subImageCreatedX){
+							subImageX = img.getSubimage(0, 0, remainingWidth, imgHeight);
+							subImageCreatedX = true;
+						}
+						g.drawImage(subImageX, x, y, remainingWidth, imgHeight, this);
+					}
+					else if(remainingHeight < imgHeight){
+						if(!subImageCreatedY){
+							subImageY = img.getSubimage(0, 0, imgWidth, remainingHeight);
+							subImageCreatedY = true;
+						}
+						g.drawImage(subImageY, x, y, imgWidth, remainingHeight, this);
+					}
+					else{
+						g.drawImage(img, x, y, imgWidth, imgHeight, this);
+					}
+//					g.drawImage(img, x, y, imgWidth < remainingWidth ? imgWidth : remainingWidth, imgHeight < remainingHeight ? imgHeight : remainingHeight, 0, 0, imgWidth < remainingWidth ? imgWidth : remainingWidth, imgHeight < remainingHeight ? imgHeight : remainingHeight, this);
+				}
+			}
+	}
 	/**
 	 * Determines which view to return
 	 * @param person
@@ -140,6 +183,22 @@ public class SupermarketPanel extends JPanel{
 		return null;
 	}
 	
+	private void initImages(){
+		try {
+//			System.out.println(System.getProperty("user.dir"));
+			flesh = ImageIO.read(new File("Content/Images/Bacon-Sprite.png"));
+			beer = ImageIO.read(new File("Content/Images/beer-sprite.png"));
+			captainMorgan = ImageIO.read(new File("Content/Images/captain-morgan.png"));
+			chips = ImageIO.read(new File("Content/Images/Chips - Lays-sprite.png"));
+			nonFood = ImageIO.read(new File("Content/Images/cleaning-sprite.png"));
+			corn = ImageIO.read(new File("Content/Images/crispy_mais-sprite.png"));
+			pizza = ImageIO.read(new File("Content/Images/pizza-sprite.png"));
+			sale = ImageIO.read(new File("Content/Images/sale.png"));
+			spam = ImageIO.read(new File("Content/Images/spam-sprite.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Calculates the x position of the cell index
 	 * @param x
