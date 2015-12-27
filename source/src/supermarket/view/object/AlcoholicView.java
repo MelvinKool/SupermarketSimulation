@@ -3,25 +3,12 @@ package supermarket.view.object;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import supermarket.model.customer.Customer;
+import supermarket.model.person.Customer;
+import supermarket.view.SupermarketPanel;
 
 public class AlcoholicView extends CustomerView{
 
-	public AlcoholicView(Customer customer) {
-		super(customer);
-		// TODO Auto-generated constructor stub
+	public AlcoholicView(Customer customer, SupermarketPanel panel) {
+		super(customer,panel,15,15);
 	}
-
-	@Override
-	public void paintObject(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
-//		g.fillOval(x *, y, width, height);
-	}
-
-	@Override
-	protected void paintObject(Graphics g, int x, int y, Color color) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

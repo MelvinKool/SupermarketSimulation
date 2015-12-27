@@ -11,7 +11,7 @@ import databasemanager.DBConnection;
 import databasemanager.DBSetup;
 import supermarket.view.SupermarketPanel;
 import supermarket.model.astar.AStar;
-import supermarket.model.customer.*;
+import supermarket.model.person.*;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	SupermarketPanel panel;
@@ -29,7 +29,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 		simulationRunning = false;
 		this.panel = panel;
 		NUMCELLSX = 30;
-		NUMCELLSY = 40;
+		NUMCELLSY = 30;
 		occupiedCells = new boolean[NUMCELLSY][NUMCELLSX];
 		customers = new ArrayList<Customer>();
 		employees = new ArrayList<Employee>();

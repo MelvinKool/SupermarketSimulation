@@ -1,4 +1,4 @@
-package supermarket.model.customer;
+package supermarket.model.person;
 
 public abstract class Person {
 	public double x,y;

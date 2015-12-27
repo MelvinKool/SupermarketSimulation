@@ -1,4 +1,4 @@
-package supermarket.model.customer;
+package supermarket.model.person;
 
 public class Employee extends Person{
 

@@ -51,8 +51,8 @@ public class SupermarketController implements MouseListener{
 	public void boardClicked(MouseEvent e){
 		System.out.println("Board clicked");
 		//calculate y and x
-		int x = e.getX() / supermarketView.CELLSIZEX;
-		int y = e.getY() / supermarketView.CELLSIZEY;
+		double x = e.getX() / supermarketView.CELLSIZEX;
+		double y = e.getY() / supermarketView.CELLSIZEY;
 		System.out.println("X = " + x + " Y = " + y);
 	}
 	

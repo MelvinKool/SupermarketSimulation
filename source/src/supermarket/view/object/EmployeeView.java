@@ -2,33 +2,19 @@ package supermarket.view.object;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import supermarket.view.SupermarketPanel;
 
-import supermarket.model.customer.Employee;
+import supermarket.model.person.Employee;
 
-public class EmployeeView extends PaintableObject{
+public class EmployeeView extends PersonView{
 	Employee employee;
 	
-	public EmployeeView(Employee employee){
-		super(15,15);
+	public EmployeeView(Employee employee, SupermarketPanel panel, int width, int height){
+		super(employee,panel,width,height);
 		this.employee = employee;
 	}
+
 	
-	@Override
-	public void paintObject(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void paintObject(Graphics g, int x, int y, Color color) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void paintObject(Graphics g, int x, int y, int height, int width, Color color) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

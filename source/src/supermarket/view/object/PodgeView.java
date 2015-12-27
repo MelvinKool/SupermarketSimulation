@@ -3,7 +3,8 @@ package supermarket.view.object;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import supermarket.model.customer.Customer;
+import supermarket.model.person.Customer;
+import supermarket.view.SupermarketPanel;
 
 /**
  * A podge is bigger than a default customer
@@ -11,24 +12,8 @@ import supermarket.model.customer.Customer;
  */
 public class PodgeView extends CustomerView{
 	
-	public PodgeView(Customer customer){
-		super(customer,20,20);
-		
-	}
-
-	public void paintPodge(Graphics g){
-		
-	}
-
-	@Override
-	public void paintObject(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void paintObject(Graphics g, int x, int y, Color color) {
-		// TODO Auto-generated method stub
+	public PodgeView(Customer customer,SupermarketPanel panel){
+		super(customer,panel,20,20);
 		
 	}
 }

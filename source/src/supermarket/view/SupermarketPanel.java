@@ -6,17 +6,18 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import supermarket.model.Simulator;
-import supermarket.model.customer.*;
+import supermarket.model.person.*;
 import supermarket.view.object.*;
 
 public class SupermarketPanel extends JPanel{
-	public final int CELLSIZEX, CELLSIZEY;
+	public final double CELLSIZEX, CELLSIZEY;
 	Simulator simulator;
 	//private final Graphics DEFAULTPANELCANVAS;
 	public SupermarketPanel(Simulator simulator, int panelSizeX, int panelSizeY){
 		this.simulator = simulator;
-		CELLSIZEX = panelSizeX / simulator.NUMCELLSX;
-		CELLSIZEY = panelSizeY / simulator.NUMCELLSY;
+		CELLSIZEX = (double)panelSizeX / (double)simulator.NUMCELLSX;
+		CELLSIZEY = (double)panelSizeY / (double)simulator.NUMCELLSY;
+		System.out.println("CELLSIZE : " + CELLSIZEX + "  " + CELLSIZEY);
 		super.setBackground(Color.WHITE);
 		//DEFAULTPANELCANVAS = drawDefaultSupermarket(g);
 	}
@@ -75,13 +76,17 @@ public class SupermarketPanel extends JPanel{
 		BufferedImage image;
 		//g.drawImage(img, x, y, observer);
 		//draw a line on the y axis
-		g.drawLine(CELLSIZEX * simulator.NUMCELLSX,CELLSIZEY * simulator.NUMCELLSY, CELLSIZEX * simulator.NUMCELLSX,0);
-		//draw a line on the x axis
-		g.drawLine(0, CELLSIZEY * simulator.NUMCELLSY, CELLSIZEX * simulator.NUMCELLSX, CELLSIZEY * simulator.NUMCELLSY);
+		int outerX, outerY;
+		outerX = calculatePosX(simulator.NUMCELLSX);
+		outerY = calculatePosY(simulator.NUMCELLSY);
+		//vertical line
+		g.drawLine(outerX,0, outerX,outerY);
+		//horizontal line
+		g.drawLine(0, outerY, outerX, outerY);
 		for(int j = 0; j < simulator.NUMCELLSY; j++){
 			for(int i = 0; i < simulator.NUMCELLSX; i++){
 				if(simulator.occupiedCells[j][i]){
-					g.fillRect(i*CELLSIZEX, j*CELLSIZEY, CELLSIZEX, CELLSIZEY);
+					g.fillRect(calculatePosX(i), calculatePosY(j), (int)CELLSIZEX, (int)CELLSIZEY);
 				}
 			}
 		}
@@ -90,13 +95,41 @@ public class SupermarketPanel extends JPanel{
 	private void paintPersons(Graphics g){
 		CustomerView customerView;
 		for(Customer customer : simulator.customers){
+//			customerView = (CustomerView)determineView(customer);
 			//paint customer
-//			customerView = new 
+			customerView = new PodgeView(customer,this);
+			customerView.paintObject(g);
 //			customerView.paintObject(g, (int)customer.x * CELLSIZEX, (int)customer.y * CELLSIZEY);
 		}
+		EmployeeView employeeView;
 		for(Employee employee : simulator.employees){
 			//paint employee
+//			employeeView = (EmployeeView)determineView(employee);
 		}
+	}
+	
+//	private PaintableObject determineView(Person person){
+//		if(person instanceof Alcoholic){
+//			return new AlcoholicView((Alcoholic)person);
+//		}
+//		else if(person instanceof Employee){
+//			return new EmployeeView((Employee) person);
+//		}
+//		else if(person instanceof Mother){
+//			return new MotherView((Mother) person);
+//		}
+//		else if(person instanceof Podge){
+//			return new PodgeView((Podge) person);
+//		}
+//		return null;
+//	}
+//	
+	public int calculatePosX(double x){
+		return (int)(x * CELLSIZEX);
+	}
+	
+	public int calculatePosY(double y){
+		return (int)(y * CELLSIZEY);
 	}
 	
 	public void mouseClicked(MouseEvent e) {
