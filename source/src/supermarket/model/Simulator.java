@@ -151,7 +151,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 		for(int y = 0; y < NUMCELLSY; y ++)
 			for(int x = 0; x < NUMCELLSX; x++)
 				allpoints.add(new Point(x,y));
-		customers.add(new Student(8,8));
+		customers.add(new Student(8, 8));
 		customers.add(new Podge(8, 12));
 //		AStar astar = new AStar(this);
 //		System.out.println(astar.computeShortestPath(new Point(16,0), new Point(16,22)));

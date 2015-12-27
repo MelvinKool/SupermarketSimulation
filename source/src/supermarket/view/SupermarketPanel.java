@@ -21,7 +21,7 @@ public class SupermarketPanel extends JPanel{
 		super.setBackground(Color.WHITE);
 		//DEFAULTPANELCANVAS = drawDefaultSupermarket(g);
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -44,7 +44,7 @@ public class SupermarketPanel extends JPanel{
 //				for(int j = 0; j < PANELSIZE - CELLSIZE; j = j + CELLSIZE){
 //					g.fillOval(j + CELLSIZE / 2, i + CELLSIZE /2, CELLSIZE / 2, CELLSIZE / 2);
 //				}
-//				i++;
+//				i++;/home/melvin/workspace
 ////				System.out.printlcleaning_materials_2__n();
 //			}
 //			return;
@@ -72,6 +72,10 @@ public class SupermarketPanel extends JPanel{
 //		}
 	}
 	
+	/**
+	 * Paints the supermarket
+	 * @param g
+	 */
 	private void paintDefaultSupermarket(Graphics g){
 		BufferedImage image;
 		//g.drawImage(img, x, y, observer);
@@ -92,42 +96,64 @@ public class SupermarketPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Paints all persons on the panel
+	 * @param g
+	 */
 	private void paintPersons(Graphics g){
 		CustomerView customerView;
 		for(Customer customer : simulator.customers){
 //			customerView = (CustomerView)determineView(customer);
 			//paint customer
-			customerView = new PodgeView(customer,this);
+			customerView = (CustomerView)determineView(customer);
+			if(customerView == null)
+				continue;
 			customerView.paintObject(g);
 //			customerView.paintObject(g, (int)customer.x * CELLSIZEX, (int)customer.y * CELLSIZEY);
 		}
 		EmployeeView employeeView;
 		for(Employee employee : simulator.employees){
 			//paint employee
-//			employeeView = (EmployeeView)determineView(employee);
+			employeeView = (EmployeeView)determineView(employee);
+			if(employeeView == null)
+				continue;
+			employeeView.paintObject(g);
 		}
 	}
 	
-//	private PaintableObject determineView(Person person){
-//		if(person instanceof Alcoholic){
-//			return new AlcoholicView((Alcoholic)person);
-//		}
-//		else if(person instanceof Employee){
-//			return new EmployeeView((Employee) person);
-//		}
-//		else if(person instanceof Mother){
-//			return new MotherView((Mother) person);
-//		}
-//		else if(person instanceof Podge){
-//			return new PodgeView((Podge) person);
-//		}
-//		return null;
-//	}
-//	
+	/**
+	 * Determines which view to return
+	 * @param person
+	 * @return the view of the person
+	 */
+	private PaintableObject determineView(Person person){
+		if(person instanceof Alcoholic)
+			return new AlcoholicView((Alcoholic)person,this);
+		else if(person instanceof Employee)
+			return new EmployeeView((Employee) person, this);
+		else if(person instanceof Mother)
+			return new MotherView((Mother) person, this);
+		else if(person instanceof Podge)
+			return new PodgeView((Podge) person, this);
+		else if(person instanceof Student)
+			return new StudentView((Student)person,this);
+		return null;
+	}
+	
+	/**
+	 * Calculates the x position of the cell index
+	 * @param x
+	 * @return
+	 */
 	public int calculatePosX(double x){
 		return (int)(x * CELLSIZEX);
 	}
 	
+	/**
+	 * Calculates the y position of the cell index
+	 * @param y
+	 * @return
+	 */
 	public int calculatePosY(double y){
 		return (int)(y * CELLSIZEY);
 	}
@@ -135,22 +161,4 @@ public class SupermarketPanel extends JPanel{
 	public void mouseClicked(MouseEvent e) {
 		//do something with the panel
 	}
-	
-//	/**
-//	 * Draws the default graphics object of the supermarket
-//	 * for drawing optimalisation
-//	 * @return
-//	 */
-//	private Graphics drawDefaultSupermarketObject(){
-//		Graphics g = null;
-//		g.draw
-//		return g;
-//	}
-//	public void placePole(int x, int y){
-//		Point p = new Point(x,y);
-//		if(!placedPoles.contains(p)){
-//			placedPoles.add(p);
-//			//draw on board
-//		}
-//	}
 }

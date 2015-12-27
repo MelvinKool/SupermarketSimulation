@@ -9,8 +9,8 @@ import supermarket.model.person.Employee;
 public class EmployeeView extends PersonView{
 	Employee employee;
 	
-	public EmployeeView(Employee employee, SupermarketPanel panel, int width, int height){
-		super(employee,panel,width,height);
+	public EmployeeView(Employee employee, SupermarketPanel panel){
+		super(employee,panel,15,15);
 		this.employee = employee;
 	}
 

@@ -1,6 +1,7 @@
 package supermarket;
 
 import javax.swing.SwingUtilities;
+
 import supermarket.view.SupermarketFrame;
 
 public class Main {
