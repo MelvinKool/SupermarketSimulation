@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
@@ -46,39 +47,38 @@ public class Simulator extends SwingWorker<Void,Void>{
 		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
-		// keep looping around till the game ends
+		//gameloop
 		while (simulationRunning){
-			// work out how long its been since the last update, this
-			// will be used to calculate how far the entities should
-			// move this loop
+			//work out how long its been since the last update, this
+			//will be used to calculate how far the entities should
+			//move this loop
 			long now = System.nanoTime();
 			long updateLength = now - lastLoopTime;
 			lastLoopTime = now;
 			double delta = updateLength / ((double)OPTIMAL_TIME);
-			// update the frame counter
+			//update the frame counter
 			lastFpsTime += updateLength;
 			fps++;
-			// update our FPS counter if a second has passed since
-			// we last recorded
+			//update our FPS counter if a second has passed since
+			//we last recorded
 			if (lastFpsTime >= 1000000000){
 				System.out.println("(FPS: "+fps+")");
 				lastFpsTime = 0;
 				fps = 0;
 			}
-			// update the game logic
+			//update the game logic
 			simpleUpdate(delta);
-			// draw everything
+			//draw everything
 			simpleRender();
-			// we want each frame to take 10 milliseconds, to do this
-			// we've recorded when we started the frame. We add 10 milliseconds
-			// to this and then factor in the current time to give 
-			// us our final value to wait for
-			// remember this is in ms, whereas our lastLoopTime etc. vars are in ns.
+			//we want each frame to take 10 milliseconds, to do this
+			//we've recorded when we started the frame. We add 10 milliseconds
+			//to this and then factor in the current time to give 
+			//us our final value to wait for
+			//remember this is in ms, whereas our lastLoopTime etc. vars are in ns.
 			try{
 				Thread.sleep( (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000);
 			} 
 			catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -149,6 +149,13 @@ public class Simulator extends SwingWorker<Void,Void>{
 //				allpoints.add(new Point(x,y));
 		customers.add(new Student(8, 8));
 		customers.add(new Podge(8, 12));
+		AStar astar = new AStar(this);
+		Customer customer = customers.get(0);
+		List<Point> shortestRoute = astar.computeShortestPath(new Point((int)customer.x, (int)customer.y), new Point(24,24));
+		customer.setRoute(shortestRoute);
+		Customer customer2 = customers.get(1);
+		List<Point> shortestRoute2 = astar.computeShortestPath(new Point((int)customer2.x, (int)customer2.y), new Point(25,25));
+		customer2.setRoute(shortestRoute2);
 //		AStar astar = new AStar(this);
 //		System.out.println(astar.computeShortestPath(new Point(16,0), new Point(16,22)));
 //		for(int y = 0; y < NUMCELLSY; y ++)
@@ -179,7 +186,12 @@ public class Simulator extends SwingWorker<Void,Void>{
 	 * of time between updates.
 	 */
 	private void simpleUpdate(double delta){
-		//frequent updates
+		//spawn customers
+		possiblySpawnRandomCustomer(delta);
+		//move customers
+		for(Customer customer : customers){
+			customer.move(delta);
+		}
 		//check if product paths or departments need refilling
 		//check if a new cash desk needs to be opened
 		//check if products need to be ordered
@@ -191,6 +203,66 @@ public class Simulator extends SwingWorker<Void,Void>{
 	private void simpleRender(){
 		//draw everything
 		panel.repaint();
+	}
+	
+	private void possiblySpawnRandomCustomer(double delta){
+		double chance = delta / 500;
+		Random r = new Random();
+		double randomValue = delta * r.nextDouble();
+		if(randomValue > chance)
+			return;
+		Point spawnPoint = getRandomSpawnLocation();
+		//there is no place to spawn
+		if(spawnPoint == null)
+			return;
+		//spawn random customer
+		int customerType = r.nextInt(4);
+		switch(customerType){
+			case 0:
+				customers.add(new Alcoholic(spawnPoint.x, spawnPoint.y));
+				break;
+			case 1:
+				customers.add(new Mother(spawnPoint.x, spawnPoint.y));
+				break;
+			case 2:
+				customers.add(new Podge(spawnPoint.x, spawnPoint.y));
+				break;
+			case 3:
+				customers.add(new Student(spawnPoint.x, spawnPoint.y));
+				break;
+		}
+	}
+	
+	private Point getRandomSpawnLocation(){
+		for(int y = NUMCELLSY - 1; y >= 0; y--){
+			for(int x = 0; x < NUMCELLSX; x++){
+//				check if the place is free
+				if(placeFree(x,y)){
+					return new Point(x,y);
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Checks if a place is not occupied
+	 * @param x
+	 * @param y
+	 * @return place isn't 
+	 */
+	public boolean placeFree(int x, int y){
+		if(occupiedCells[y][x])
+			return false;
+		for(Customer customer : customers){
+			if((int)customer.x == x && (int)customer.y == y)
+				return false;
+		}
+		for(Employee employee : employees){
+			if((int)employee.x == x && (int)employee.y == y)
+				return false;
+		}
+		return true;
 	}
 	
 	public void setPanel(SupermarketPanel panel){
