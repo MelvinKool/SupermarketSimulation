@@ -11,14 +11,16 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JOptionPane;
 //////////////////////////////////
 
 import supermarket.controller.SupermarketController;
+import supermarket.model.Checkout;
 import supermarket.model.Simulator;
 
 public class SupermarketFrame extends JFrame{
-	JList<String> solutionList;
-	DefaultListModel<String> solutionListModel;
+	public JList<String> salesSlipList;
+	DefaultListModel<String> salesSlipListModel;
 	public SupermarketFrame(){
 		System.out.println("Building gui...");
 		this.setVisible(true);
@@ -26,20 +28,20 @@ public class SupermarketFrame extends JFrame{
 		this.setLayout(new BorderLayout());
 		this.setTitle("Supermarket simulation v1.0");
 		//make a simulation
-		Simulator simulator = new Simulator(null);
+		Simulator simulator = new Simulator(null, this);
 		SupermarketPanel supermarketPanel = new SupermarketPanel(simulator,800,800);
 		simulator.setPanel(supermarketPanel);
 		//add the controller 
 		SupermarketController controller = new SupermarketController(supermarketPanel,this,simulator);
 		supermarketPanel.addMouseListener(controller);
 //		solvingPanel.setSize(350,350);
-		JPanel solutionPanel = new JPanel();
-		solutionListModel = new DefaultListModel<String>();
-		solutionList = new JList<String>(solutionListModel);
-		solutionList.addMouseListener(controller);
+		JPanel statisticsPanel = new JPanel();
+		salesSlipListModel = new DefaultListModel<String>();
+		salesSlipList = new JList<String>(salesSlipListModel);
+		salesSlipList.addMouseListener(controller);
 		//solutionPanel.add(solutionList);
-		solutionPanel.add(new JScrollPane(solutionList));
-		JSplitPane solutionPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,solutionPanel,supermarketPanel);
+		statisticsPanel.add(new JScrollPane(salesSlipList));
+		JSplitPane solutionPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,statisticsPanel,supermarketPanel);
 //		solutionPane.setSize(1000,700);
 		this.add(solutionPane,BorderLayout.CENTER);
 		JPanel controlPanel = new JPanel();
@@ -62,7 +64,11 @@ public class SupermarketFrame extends JFrame{
 		System.out.println("Building gui done!");
 	}
 	
-	public void addSolutionToJList(){
-		solutionListModel.addElement("Solution " + solutionListModel.size());
+	public void addSalesSlipToJList(){
+		salesSlipListModel.addElement("Checkout " + salesSlipListModel.size());
+	}
+	
+	public void showSalesSlip(Checkout checkout){
+		JOptionPane.showMessageDialog(this, checkout);
 	}
 }

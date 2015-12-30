@@ -9,6 +9,6 @@ import supermarket.view.SupermarketPanel;
 public class AlcoholicView extends CustomerView{
 
 	public AlcoholicView(Customer customer, SupermarketPanel panel) {
-		super(customer,panel,15,15);
+		super(customer,panel,15,15, Color.red);
 	}
 }

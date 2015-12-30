@@ -1,5 +1,6 @@
 package supermarket.model;
 
+import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
@@ -7,18 +8,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.zip.CheckedOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
 
 import databasemanager.DBConnection;
 import databasemanager.DBSetup;
+import supermarket.view.SupermarketFrame;
 import supermarket.view.SupermarketPanel;
 import supermarket.model.astar.AStar;
 import supermarket.model.person.*;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	SupermarketPanel panel;
+	SupermarketFrame frame;
 	boolean simulationRunning;
 	long lastFpsTime;
 	int fps;
@@ -26,17 +30,20 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public boolean[][] occupiedCells;
 	public List<Customer> customers;
 	public List<Employee> employees;
+	public List<Checkout> checkouts;
 	//maps a product id to a location
 	HashMap<Integer,Point[]> productLocations;
 	
-	public Simulator(SupermarketPanel panel){
+	public Simulator(SupermarketPanel panel, SupermarketFrame frame){
 		simulationRunning = false;
 		this.panel = panel;
+		this.frame = frame;
 		NUMCELLSX = 30;
 		NUMCELLSY = 30;
 		occupiedCells = new boolean[NUMCELLSY][NUMCELLSX];
 		customers = new ArrayList<Customer>();
 		employees = new ArrayList<Employee>();
+		checkouts = new ArrayList<Checkout>();
 	}
 	
 	/**
@@ -156,6 +163,8 @@ public class Simulator extends SwingWorker<Void,Void>{
 		Customer customer2 = customers.get(1);
 		List<Point> shortestRoute2 = astar.computeShortestPath(new Point((int)customer2.x, (int)customer2.y), new Point(25,25));
 		customer2.setRoute(shortestRoute2);
+		addCheckout(new Checkout("ha bieeer"));
+		addCheckout(new Checkout("lekkuur"));
 //		AStar astar = new AStar(this);
 //		System.out.println(astar.computeShortestPath(new Point(16,0), new Point(16,22)));
 //		for(int y = 0; y < NUMCELLSY; y ++)
@@ -268,4 +277,12 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public void setPanel(SupermarketPanel panel){
 		this.panel = panel;
 	}
+	
+	private void addCheckout(Checkout checkout){
+		checkouts.add(checkout);
+		frame.addSalesSlipToJList();
+	}
+	
+//	public void loadCheckouts(){
+//	}
 }

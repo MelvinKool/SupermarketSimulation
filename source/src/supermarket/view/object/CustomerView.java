@@ -9,8 +9,8 @@ import supermarket.view.SupermarketPanel;
 public abstract class CustomerView extends PersonView{
 	Customer customer;
 	
-	protected CustomerView(Customer customer, SupermarketPanel panel,int width, int height){
-		super(customer,panel,width,height);
+	protected CustomerView(Customer customer, SupermarketPanel panel,int width, int height, Color backgroundColor){
+		super(customer,panel,width,height, backgroundColor);
 		this.customer = customer;
 	}
 }

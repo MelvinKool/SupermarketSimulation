@@ -9,7 +9,7 @@ import supermarket.view.SupermarketPanel;
 public class MotherView extends CustomerView{
 
 	public MotherView(Customer customer,SupermarketPanel panel) {
-		super(customer,panel,15,15);
+		super(customer,panel,15,15, Color.PINK);
 		// TODO Auto-generated constructor stub
 	}
 

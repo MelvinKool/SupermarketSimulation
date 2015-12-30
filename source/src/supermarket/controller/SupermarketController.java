@@ -59,7 +59,9 @@ public class SupermarketController implements MouseListener{
 	//solution list clicked
 	public void solutionlistClicked(MouseEvent e){
 		System.out.println("Checkout list clicked");
+		int test = frame.salesSlipList.getSelectedIndex();
 		//view the sales slip
+		frame.showSalesSlip(simulation.checkouts.get(test));
 	}
 	
 	@Override

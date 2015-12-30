@@ -10,7 +10,7 @@ public class EmployeeView extends PersonView{
 	Employee employee;
 	
 	public EmployeeView(Employee employee, SupermarketPanel panel){
-		super(employee,panel,15,15);
+		super(employee,panel,15,15,Color.BLUE);
 		this.employee = employee;
 	}
 

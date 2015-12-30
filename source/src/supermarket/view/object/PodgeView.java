@@ -13,7 +13,7 @@ import supermarket.view.SupermarketPanel;
 public class PodgeView extends CustomerView{
 	
 	public PodgeView(Customer customer,SupermarketPanel panel){
-		super(customer,panel,20,20);
+		super(customer,panel,20,20, Color.CYAN);
 		
 	}
 }
