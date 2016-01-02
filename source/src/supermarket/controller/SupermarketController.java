@@ -20,7 +20,7 @@ public class SupermarketController implements MouseListener{
 	}
 	
 	//start button
-	public void actionPerformedSolve (ActionEvent ae){
+	public void actionPerformedStart (ActionEvent ae){
 		System.out.println("Start button clicked");
 		//start the supermarket
 		//simulation = new Simulator();
@@ -45,6 +45,11 @@ public class SupermarketController implements MouseListener{
 	public void actionPerformedStop (ActionEvent ae){
 		System.out.println("Stop button clicked");
 		simulation.stop();
+	}
+	
+	public void actionPerformedShowStock(ActionEvent ae){
+		//show stock
+		System.out.println("Show stock");
 	}
 	
 	//board panel clicked

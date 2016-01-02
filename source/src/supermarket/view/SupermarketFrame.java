@@ -2,15 +2,18 @@ package supermarket.view;
 
 /*              GUI              */
 import java.awt.BorderLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 //////////////////////////////////
 
@@ -35,22 +38,29 @@ public class SupermarketFrame extends JFrame{
 		SupermarketController controller = new SupermarketController(supermarketPanel,this,simulator);
 		supermarketPanel.addMouseListener(controller);
 //		solvingPanel.setSize(350,350);
-		JPanel statisticsPanel = new JPanel();
+		JPanel statisticsPanel = new JPanel(new BorderLayout());
 		salesSlipListModel = new DefaultListModel<String>();
 		salesSlipList = new JList<String>(salesSlipListModel);
 		salesSlipList.addMouseListener(controller);
+//		salesSlipList.setSize(salesSlipList.getMaximumSize());
 		//solutionPanel.add(solutionList);
-		statisticsPanel.add(new JScrollPane(salesSlipList));
-		JSplitPane solutionPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,statisticsPanel,supermarketPanel);
+		statisticsPanel.add(new JLabel("Checkouts:"),BorderLayout.NORTH);
+		statisticsPanel.add(new JScrollPane(salesSlipList), BorderLayout.CENTER);
+		JButton showStockBtn = new JButton("Show stock");
+		showStockBtn.addActionListener (ae -> controller.actionPerformedShowStock(ae));
+		statisticsPanel.add(showStockBtn, BorderLayout.SOUTH);
+		JSplitPane simulationPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,statisticsPanel,supermarketPanel);
 //		solutionPane.setSize(1000,700);
-		this.add(solutionPane,BorderLayout.CENTER);
+//		this.add(simulationPane,BorderLayout.CENTER);
+		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.add("Simulation", simulationPane);
 		JPanel controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
 		controlPanel.setAlignmentX(CENTER_ALIGNMENT);
 		controlPanel.setBorder (BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		JButton startBtn = new JButton("Start");
 //		startBtn.setEnabled(false);
-		startBtn.addActionListener (ae -> controller.actionPerformedSolve (ae));
+		startBtn.addActionListener (ae -> controller.actionPerformedStart (ae));
 		controlPanel.add(startBtn);
 		JButton pauseBtn = new JButton("Pause");
 		pauseBtn.addActionListener (ae -> controller.actionPerformedPause (ae));
@@ -58,6 +68,9 @@ public class SupermarketFrame extends JFrame{
 		JButton stopBtn = new JButton("Stop");
 		stopBtn.addActionListener (ae -> controller.actionPerformedStop(ae));
 		controlPanel.add(stopBtn);
+		StockPanel stockPanel = new StockPanel();
+		tabbedPane.add("Stock", stockPanel);
+		this.add(tabbedPane,BorderLayout.CENTER);
 		this.add(controlPanel,BorderLayout.SOUTH);
 //		this.pack();
 		this.setSize(1086, 866);
