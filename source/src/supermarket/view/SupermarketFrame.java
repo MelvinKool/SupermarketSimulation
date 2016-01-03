@@ -46,9 +46,9 @@ public class SupermarketFrame extends JFrame{
 		//solutionPanel.add(solutionList);
 		statisticsPanel.add(new JLabel("Checkouts:"),BorderLayout.NORTH);
 		statisticsPanel.add(new JScrollPane(salesSlipList), BorderLayout.CENTER);
-		JButton showStockBtn = new JButton("Show stock");
-		showStockBtn.addActionListener (ae -> controller.actionPerformedShowStock(ae));
-		statisticsPanel.add(showStockBtn, BorderLayout.SOUTH);
+//		JButton showStockBtn = new JButton("Show stock");
+//		showStockBtn.addActionListener (ae -> controller.actionPerformedShowStock(ae));
+//		statisticsPanel.add(showStockBtn, BorderLayout.SOUTH);
 		JSplitPane simulationPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,statisticsPanel,supermarketPanel);
 //		solutionPane.setSize(1000,700);
 //		this.add(simulationPane,BorderLayout.CENTER);
@@ -68,7 +68,8 @@ public class SupermarketFrame extends JFrame{
 		JButton stopBtn = new JButton("Stop");
 		stopBtn.addActionListener (ae -> controller.actionPerformedStop(ae));
 		controlPanel.add(stopBtn);
-		StockPanel stockPanel = new StockPanel();
+		StockPanel stockPanel = new StockPanel(controller);
+		controller.setStockPanel(stockPanel);
 		tabbedPane.add("Stock", stockPanel);
 		this.add(tabbedPane,BorderLayout.CENTER);
 		this.add(controlPanel,BorderLayout.SOUTH);

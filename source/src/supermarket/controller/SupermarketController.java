@@ -6,11 +6,13 @@ import java.awt.event.MouseListener;
 import javax.swing.SwingWorker.StateValue;
 
 import supermarket.model.Simulator;
+import supermarket.model.StockDataModel;
+import supermarket.view.StockPanel;
 import supermarket.view.SupermarketFrame;
 import supermarket.view.SupermarketPanel;
-
 public class SupermarketController implements MouseListener{
 	SupermarketPanel supermarketView;
+	StockPanel stockPanel;
 	SupermarketFrame frame;
 	Simulator simulation;
 	public SupermarketController(SupermarketPanel board, SupermarketFrame frame, Simulator simulation) {
@@ -47,9 +49,14 @@ public class SupermarketController implements MouseListener{
 		simulation.stop();
 	}
 	
-	public void actionPerformedShowStock(ActionEvent ae){
+	public void actionPerformedLoadStockDepartment(ActionEvent ae){
 		//show stock
-		System.out.println("Show stock");
+		stockPanel.refreshStockDataDepartment(StockDataModel.getDepartmentStock());
+	}
+	
+	public void actionPerformedLoadStockPath(ActionEvent ae){
+		//show stock
+		stockPanel.refreshStockDataPath(StockDataModel.getPathStock());
 	}
 	
 	//board panel clicked
@@ -100,5 +107,7 @@ public class SupermarketController implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void setStockPanel(StockPanel stockPanel){
+		this.stockPanel = stockPanel;
+	}
 }
