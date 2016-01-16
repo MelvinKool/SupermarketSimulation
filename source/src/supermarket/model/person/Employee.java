@@ -11,5 +11,10 @@ public class Employee extends Person{
 		// TODO Auto-generated method stub
 		return "Employee";
 	}
-
+	
+	@Override
+	protected void onWayPointReach(){
+		System.out.println("Employee reached final destination");
+		//fill product?
+	}
 }

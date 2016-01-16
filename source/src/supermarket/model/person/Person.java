@@ -37,6 +37,9 @@ public abstract class Person {
 		if((int)x == nextPoint.x && (int) y == nextPoint.y){
 			route.remove(0);
 		}
+		//if the route is empty, the final waypoint has been reached
+		if(route.isEmpty())
+			onWayPointReach();
 //		if(diffX != 0 && diffY != 0){
 //			//move diagonal
 //		}
@@ -52,4 +55,9 @@ public abstract class Person {
 //		}
 		//delete the point if completed tile
 	}
+	
+	/**
+	 * Do something if completed the route
+	 */
+	protected abstract void onWayPointReach();
 }

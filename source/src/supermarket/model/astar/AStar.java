@@ -7,6 +7,11 @@ import java.util.NoSuchElementException;
 
 import supermarket.model.Simulator;
 
+/**
+ * Class for path finding
+ * @author melvin
+ *
+ */
 public class AStar {
 	/**
 	 * A star Node

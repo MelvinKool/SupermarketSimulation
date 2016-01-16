@@ -11,4 +11,10 @@ public abstract class Customer extends Person{
 	public void checkout(){
 		
 	}
+	
+	@Override
+	protected void onWayPointReach(){
+		System.out.println("Customer reached final destination");
+		//buy product, do a checkout, leave the supermarket?
+	}
 }
