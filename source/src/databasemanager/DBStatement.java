@@ -61,6 +61,7 @@ public class DBStatement {
 		}
 		return null;
 	}
+	
 	public static Vector<Vector> getPathStock(){
 		try {
 			return getStock("SELECT P.productid, P.naam, A.naam, PA.aantal, M.aantal, PA.aantal + M.aantal "+

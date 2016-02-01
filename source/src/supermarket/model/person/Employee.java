@@ -1,9 +1,11 @@
 package supermarket.model.person;
 
+import supermarket.model.Simulator;
+
 public class Employee extends Person{
 
-	public Employee(double spawnX, double spawnY){
-		super(spawnX, spawnY);
+	public Employee(Simulator simulator, double spawnX, double spawnY){
+		super(simulator, spawnX, spawnY);
 	}
 	
 	@Override

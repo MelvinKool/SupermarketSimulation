@@ -1,8 +1,10 @@
 package supermarket.model.person;
 
+import supermarket.model.Simulator;
+
 public class Alcoholic extends Customer{
-	public Alcoholic(double spawnX, double spawnY){
-		super(spawnX, spawnY);
+	public Alcoholic(Simulator simulator, double spawnX, double spawnY){
+		super(simulator,spawnX, spawnY);
 	}
 	@Override
 	public String toString(){

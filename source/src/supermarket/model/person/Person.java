@@ -3,13 +3,23 @@ package supermarket.model.person;
 import java.awt.Point;
 import java.util.List;
 
+import supermarket.model.Simulator;
+import supermarket.model.astar.AStar;
+
 public abstract class Person {
 	public double x,y;
-	List<Point> route;
-	public Person(double spawnX, double spawnY) {
+	private int msWaitTime, lastMsSystemTime;
+	private List<Point> route;
+	protected Simulator simulator;
+	protected AStar astar;
+	
+	public Person(Simulator simulator, double spawnX, double spawnY) {
 		x = spawnX;
 		y = spawnY;
+		this.simulator = simulator;
+		this.astar = new AStar(this.simulator);
 	}
+	
 	public abstract String toString();
 	
 	/**
@@ -20,9 +30,13 @@ public abstract class Person {
 		this.route = route;
 	}
 	
-	public void move(double delta){
+	public void move(double delta, long updateLength){
 		if(route == null || route.isEmpty())
 			return;
+		if(msWaitTime > 0){
+			msWaitTime -= updateLength / 1000000;
+			return;
+		}
 		Point nextPoint = route.get(0);
 //		double diffX = (double)nextPoint.x - x;
 //		double diffY = (double)nextPoint.y - y;
@@ -54,6 +68,14 @@ public abstract class Person {
 			
 //		}
 		//delete the point if completed tile
+	}
+	
+	/**
+	 * Makes the person wait for an amount of milliseconds
+	 * @param ms
+	 */
+	public void wait(int ms){
+		msWaitTime += ms;
 	}
 	
 	/**

@@ -15,10 +15,12 @@ import javax.swing.SwingWorker;
 
 import databasemanager.DBConnection;
 import databasemanager.DBSetup;
+import databasemanager.services.ProductService;
 import supermarket.view.SupermarketFrame;
 import supermarket.view.SupermarketPanel;
 import supermarket.model.astar.AStar;
 import supermarket.model.person.*;
+import supermarket.model.product.ProductModel;
 
 public class Simulator extends SwingWorker<Void,Void>{
 	SupermarketPanel panel;
@@ -31,6 +33,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public List<Customer> customers;
 	public List<Employee> employees;
 	public List<Checkout> checkouts;
+	List<ProductModel> products;
 	//maps a product id to a location
 	HashMap<Integer,Point[]> productLocations;
 	
@@ -74,7 +77,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 				fps = 0;
 			}
 			//update the game logic
-			simpleUpdate(delta);
+			simpleUpdate(delta,updateLength);
 			//draw everything
 			simpleRender();
 			//we want each frame to take 10 milliseconds, to do this
@@ -149,13 +152,14 @@ public class Simulator extends SwingWorker<Void,Void>{
 				occupiedCells[y][x] = true;
 			}
 		}
-		
+		ProductService productService = new ProductService();
+		products = productService.getProducts();
 //		List<Point> allpoints = new ArrayList<Point>();
 //		for(int y = 0; y < NUMCELLSY; y ++)
 //			for(int x = 0; x < NUMCELLSX; x++)
 //				allpoints.add(new Point(x,y));
-		customers.add(new Student(8, 8));
-		customers.add(new Podge(8, 12));
+		customers.add(new Student(this, 8, 8));
+		customers.add(new Podge(this, 8, 12));
 		AStar astar = new AStar(this);
 		Customer customer = customers.get(0);
 		List<Point> shortestRoute = astar.computeShortestPath(new Point((int)customer.x, (int)customer.y), new Point(24,24));
@@ -194,12 +198,12 @@ public class Simulator extends SwingWorker<Void,Void>{
 	 * This is used for compensating the difference 
 	 * of time between updates.
 	 */
-	private void simpleUpdate(double delta){
+	private void simpleUpdate(double delta, long updateTime){
 		//spawn customers
 		possiblySpawnRandomCustomer(delta);
 		//move customers
 		for(Customer customer : customers){
-			customer.move(delta);
+			customer.move(delta,updateTime);
 		}
 		//check if product paths or departments need refilling
 		//check if a new cash desk needs to be opened
@@ -228,16 +232,16 @@ public class Simulator extends SwingWorker<Void,Void>{
 		int customerType = r.nextInt(4);
 		switch(customerType){
 			case 0:
-				customers.add(new Alcoholic(spawnPoint.x, spawnPoint.y));
+				customers.add(new Alcoholic(this, spawnPoint.x, spawnPoint.y));
 				break;
 			case 1:
-				customers.add(new Mother(spawnPoint.x, spawnPoint.y));
+				customers.add(new Mother(this, spawnPoint.x, spawnPoint.y));
 				break;
 			case 2:
-				customers.add(new Podge(spawnPoint.x, spawnPoint.y));
+				customers.add(new Podge(this, spawnPoint.x, spawnPoint.y));
 				break;
 			case 3:
-				customers.add(new Student(spawnPoint.x, spawnPoint.y));
+				customers.add(new Student(this, spawnPoint.x, spawnPoint.y));
 				break;
 		}
 	}
