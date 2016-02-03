@@ -35,49 +35,6 @@ public class SupermarketPanel extends JPanel{
 		super.paintComponent(g);
 		paintDefaultSupermarket(g);
 		paintPersons(g);
-		//paint the default supermarket
-//		if(paintSolutionIndex == null){
-			//paint pin holes
-//			g.setColor(new Color(102,51,0));
-//			for(int[] pin : solver.pinPositions){
-//				Point p = new Point(pin[1],pin[0]);
-//				if(!(placedPole == null))
-//					if(placedPole.x == p.x && placedPole.y == p.y)
-//						g.setColor(Color.BLACK);
-//				g.fillOval(CELLSIZE * pin[1] + CELLSIZE / 2, CELLSIZE * pin[0] + CELLSIZE /2, CELLSIZE / 2, CELLSIZE / 2);
-////				if(placedPole == p)
-//				g.setColor(new Color(102,51,0));
-//			}
-//			for(int i = 0; i < PANELSIZE; i = i + CELLSIZE){
-//				for(int j = 0; j < PANELSIZE - CELLSIZE; j = j + CELLSIZE){
-//					g.fillOval(j + CELLSIZE / 2, i + CELLSIZE /2, CELLSIZE / 2, CELLSIZE / 2);
-//				}
-//				i++;/home/melvin/workspace
-////				System.out.printlcleaning_materials_2__n();
-//			}
-//			return;
-//		}
-		//paint blocks
-//		g.setColor(Color.BLACK);
-//		int x = 0, y = 0;
-//		String hexvalue; 
-//		for(int i = 0; i < PANELSIZE; i = i + CELLSIZE){
-//			for(int j = 0; j < PANELSIZE; j = j + CELLSIZE){
-////				System.out.println(x + " " + y);
-//				int cellValue = solver.solutions.get(paintSolutionIndex)[y][x];
-//				//hexvalue = Integer.toHexString(255/cellValue);
-//				//g.setColor(Color.decode(hexvalue));
-//				g.setColor(Color.getHSBColor(cellValue / 10f, 1, 0.9f));
-////				System.out.print(cellValue + " ");
-////				g.setColor(cellNumb/maxColorValue);
-//				g.fillRect(j++, i, CELLSIZE, CELLSIZE);
-//				x++;
-//			}
-//			i++;
-//			x = 0;
-//			y++;
-//			System.out.println();
-//		}
 	}
 	
 	/**
@@ -88,11 +45,14 @@ public class SupermarketPanel extends JPanel{
 		paintImageRepeatedInRegion(g, cheese, 0, 0, (int)(6 * CELLSIZEX), (int)(6 * CELLSIZEY));
 		paintImageRepeatedInRegion(g, pizza, (int)(10 * CELLSIZEX), (int)(2 * CELLSIZEY), (int)(22 * CELLSIZEX), (int)(6 * CELLSIZEY));
 		paintImageRepeatedInRegion(g, flesh, (int)(25 * CELLSIZEX), (int)(0 * CELLSIZEY), (int)(30 * CELLSIZEX), (int)(6 * CELLSIZEY));
-		paintImageRepeatedInRegion(g, nonFood, (int)(0 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(6 * CELLSIZEX), (int)(21 * CELLSIZEY));
-		paintImageRepeatedInRegion(g, corn, (int)(10 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(15* CELLSIZEX), (int)(21 * CELLSIZEY));
-		paintImageRepeatedInRegion(g, chips, (int)(17 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(22 * CELLSIZEX), (int)(21 * CELLSIZEY));
-		paintImageRepeatedInRegion(g, beer, (int)(25 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(30 * CELLSIZEX), (int)(21 * CELLSIZEY));
-		paintImageRepeatedInRegion(g, pizza, (int)(10 * CELLSIZEX), (int)(2 * CELLSIZEY), (int)(22 * CELLSIZEX), (int)(6 * CELLSIZEY));
+		paintImageRepeatedInRegion(g, nonFood, (int)(0 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(6 * CELLSIZEX), (int)(20 * CELLSIZEY));
+		paintImageRepeatedInRegion(g, corn, (int)(10 * CELLSIZEX), (int)(12 * CELLSIZEY), (int)(15* CELLSIZEX), (int)(20 * CELLSIZEY));
+		paintImageRepeatedInRegion(g, sale, (int)(10 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(15* CELLSIZEX), (int)(12 * CELLSIZEY));
+		paintImageRepeatedInRegion(g, chips, (int)(17 * CELLSIZEX), (int)(12 * CELLSIZEY), (int)(22 * CELLSIZEX), (int)(20 * CELLSIZEY));
+		paintImageRepeatedInRegion(g, sale, (int)(17 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(22 * CELLSIZEX), (int)(12 * CELLSIZEY));
+		paintImageRepeatedInRegion(g, beer, (int)(25 * CELLSIZEX), (int)(10 * CELLSIZEY), (int)(30 * CELLSIZEX), (int)(20 * CELLSIZEY));
+		//paintImageRepeatedInRegion(g, pizza, (int)(10 * CELLSIZEX), (int)(2 * CELLSIZEY), (int)(22 * CELLSIZEX), (int)(6 * CELLSIZEY));
+		//paintImageRepeatedInRegion(g, sale, (int)(10 * CELLSIZEX), y1, x2, y2);
 //		paintImageRepeatedInRegion(g, flesh, 0, 0, (int)(6 * CELLSIZEX), (int)(6 * CELLSIZEY));
 //		paintImageRepeatedInRegion(g, beer, 50, 50, 200, 500);
 		//draw a line on the y axis
@@ -204,8 +164,9 @@ public class SupermarketPanel extends JPanel{
 			nonFood = toBufferedImage(ImageIO.read(new File("Content/Images/cleaning-sprite.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
 			corn = toBufferedImage(ImageIO.read(new File("Content/Images/crispy_mais-sprite.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
 			pizza = toBufferedImage(ImageIO.read(new File("Content/Images/pizza-sprite.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
-			sale = toBufferedImage(ImageIO.read(new File("Content/Images/sale.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
+			//sale = toBufferedImage(ImageIO.read(new File("Content/Images/sale.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
 			spam = toBufferedImage(ImageIO.read(new File("Content/Images/spam-sprite.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
+			sale = toBufferedImage(ImageIO.read(new File("Content/Images/money.png")).getScaledInstance((int)(CELLSIZEX * 2), (int)(CELLSIZEY * 2), Image.SCALE_DEFAULT));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

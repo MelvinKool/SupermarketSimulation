@@ -36,8 +36,8 @@ public class DBSetup {
 			statements.add("CREATE TABLE IF NOT EXISTS Afdeling(afdelingid INT NOT NULL auto_increment PRIMARY KEY, naam varchar(50));");
 			statements.add("CREATE TABLE IF NOT EXISTS Product(productid INT NOT NULL auto_increment PRIMARY KEY, naam varchar(100),prijs DECIMAL);");
 			statements.add("CREATE TABLE IF NOT EXISTS Groep_Voorkeur_Product(groepid INT NOT NULL, productid INT NOT NULL, FOREIGN KEY(productid) REFERENCES Product(productid), FOREIGN KEY(groepid) REFERENCES Groep(groepid));");
-			statements.add("CREATE TABLE IF NOT EXISTS Product_Opgesteld_Pad(productid INT NOT NULL, padid INT NOT NULL, aantal int, FOREIGN KEY(productid) REFERENCES Product(productid), FOREIGN KEY(padid) REFERENCES Pad(padid));");
-			statements.add("CREATE TABLE IF NOT EXISTS Product_Opgesteld_Afdeling(productid INT NOT NULL, afdelingid INT NOT NULL, gewicht INT, FOREIGN KEY(productid) REFERENCES Product(productid), FOREIGN KEY(afdelingid) REFERENCES Afdeling(afdelingid));");
+			statements.add("CREATE TABLE IF NOT EXISTS Product_Opgesteld_Pad(productid INT NOT NULL, padid INT NOT NULL, aantal int, locatie varchar(100), FOREIGN KEY(productid) REFERENCES Product(productid), FOREIGN KEY(padid) REFERENCES Pad(padid));");
+			statements.add("CREATE TABLE IF NOT EXISTS Product_Opgesteld_Afdeling(productid INT NOT NULL, afdelingid INT NOT NULL, gewicht INT, locatie varchar(100), FOREIGN KEY(productid) REFERENCES Product(productid), FOREIGN KEY(afdelingid) REFERENCES Afdeling(afdelingid));");
 			statements.add("CREATE TABLE IF NOT EXISTS Magazijn(productid INT NOT NULL, aantal int, gewicht int, FOREIGN KEY(productid) REFERENCES Product(productid));");
 			statements.add("CREATE TABLE IF NOT EXISTS Klant(klantid INT NOT NULL auto_increment PRIMARY KEY, groepid INT NOT NULL, FOREIGN KEY(groepid) REFERENCES Groep(groepid));");
 			statements.add("CREATE TABLE IF NOT EXISTS Werknemer(werknemerid INT NOT NULL auto_increment PRIMARY KEY, naam varchar(50));");
@@ -50,7 +50,7 @@ public class DBSetup {
 			statements.add("INSERT INTO Pad(naam) VALUES('Chips');");//4
 			statements.add("INSERT INTO Pad(naam) VALUES('Dranken');");//5
 			statements.add("INSERT INTO Pad(naam) VALUES('Voordeelstraat');");//6
-			//add path products
+			//add path products	
 			statements.add("INSERT INTO Product(naam,prijs) VALUES('Bruine bonen',1.50);");//1
 			statements.add("INSERT INTO Product(naam,prijs) VALUES('Worteltjes',2.00);");//2
 			statements.add("INSERT INTO Product(naam,prijs) VALUES('Appelmoes',1.05);");//3
@@ -96,27 +96,30 @@ public class DBSetup {
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(4,13);");
 			//add products to paths: default 10 everywhere
 			int defaultcapacity = 10;
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(1,1,"+defaultcapacity+");");//bruine bonen
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(2,1,"+defaultcapacity+");");//worteltjes
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(3,1,"+defaultcapacity+");");//appelmoes
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(4,2,"+defaultcapacity+");");//pizza
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(5,2,"+defaultcapacity+");");//magnum
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(6,3,"+defaultcapacity+");");//wasbenzine
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(7,3,"+defaultcapacity+");");//gootsteenontstopper
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(8,3,"+defaultcapacity+");");//wasverzachter
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(9,4,"+defaultcapacity+");");//ham-kaas chips
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(10,4,"+defaultcapacity+");");//beertjes chips
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(11,5,"+defaultcapacity+");");//captain morgan
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(12,5,"+defaultcapacity+");");//jagermeister
-			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal) VALUES(13,5,"+defaultcapacity+");");//schultenbrau bier
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(1,1,"+defaultcapacity+",'9,17');");//bruine bonen
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(1,6,"+defaultcapacity+",'10,9');");//bruine bonen
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(2,1,"+defaultcapacity+",'15,15');");//worteltjes
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(3,1,"+defaultcapacity+",'9,19');");//appelmoes
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(4,2,"+defaultcapacity+",'15,18');");//pizza
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(5,2,"+defaultcapacity+",'20,6');");//magnum
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(6,3,"+defaultcapacity+",'3,9');");//wasbenzine
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(7,3,"+defaultcapacity+",'6,14');");//gootsteenontstopper
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(8,3,"+defaultcapacity+",'0,9');");//wasverzachter
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(9,4,"+defaultcapacity+",'16,14');");//ham-kaas chips
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(10,4,"+defaultcapacity+",'22,18');");//beertjes chips
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(11,5,"+defaultcapacity+",'27,9');");//captain morgan
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(12,5,"+defaultcapacity+",'24,13');");//jagermeister
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(13,5,"+defaultcapacity+",'24,17');");//schultenbrau bier
+			statements.add("INSERT INTO Product_Opgesteld_Pad(productid,padid,aantal,locatie) VALUES(13,6,"+defaultcapacity+",'20,9');");//schultenbrau bier
 			//add cash desk
 			statements.add("INSERT INTO Kassa(werknemerid) VALUES(6);");
 			//add products to departments
 			int defaultWeight = 10000;//weight is 10 000 grams
-			statements.add("INSERT INTO Product_Opgesteld_Afdeling(productid,afdelingid,gewicht) VALUES(14,1,"+defaultWeight+");");
-			statements.add("INSERT INTO Product_Opgesteld_Afdeling(productid,afdelingid,gewicht) VALUES(15,2,"+defaultWeight+");");
+			statements.add("INSERT INTO Product_Opgesteld_Afdeling(productid,afdelingid,gewicht,locatie) VALUES(14,1,"+defaultWeight+",'2,6');");
+			statements.add("INSERT INTO Product_Opgesteld_Afdeling(productid,afdelingid,gewicht,locatie) VALUES(15,2,"+defaultWeight+",'27,6');");
 			//execute all statements
 			for(String s : statements){
+				System.out.println(s);
 				statement.executeUpdate(s);
 			}
 			//add empty cash desks

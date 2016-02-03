@@ -9,3 +9,27 @@ chips 17,10 - 21,20
 alcohol 25,10 - 30,20
 cash desks
 ports
+
+
+=====
+
+bruine bonen 10,9
+worteltjes 13,15
+appelmoes 9,19
+
+pizza 13,1
+magnum 21,6
+
+wasbenzine 4,9
+gootsteenontstopper 6,13
+wasverzachter 6,19
+
+ham-kaas chips 16,14
+beertjes chips 22,13
+
+captain morgan 27,9
+jagermeister 24,12
+schultenbrau 24,18
+
+kaas 3,6
+vlees 27,6

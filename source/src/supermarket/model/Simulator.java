@@ -129,25 +129,25 @@ public class Simulator extends SwingWorker<Void,Void>{
 			}
 		}
 		//non-food
-		for(int y = 10; y < 21; y ++){
+		for(int y = 10; y < 20; y ++){
 			for(int x = 0; x < 6; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
 		//conserves
-		for(int y = 10; y < 21; y ++){
+		for(int y = 10; y < 20; y ++){
 			for(int x = 10; x < 15; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
 		//chips
-		for(int y = 10; y < 21; y ++){
+		for(int y = 10; y < 20; y ++){
 			for(int x = 17; x < 22; x++){
 				occupiedCells[y][x] = true;
 			}
 		}
 		//alcohol
-		for(int y = 10; y < 21; y ++){
+		for(int y = 10; y < 20; y ++){
 			for(int x = 25; x < 30; x++){
 				occupiedCells[y][x] = true;
 			}
