@@ -153,6 +153,31 @@ public class Simulator extends SwingWorker<Void,Void>{
 				occupiedCells[y][x] = true;
 			}
 		}
+		//cash desks
+		for(int y = 22; y < 27; y++){
+			for(int x = 11; x < 13; x++){
+				occupiedCells[y][x] = true;
+			}
+			for(int x = 14; x < 15; x++){
+				occupiedCells[y][x] = true;
+			}
+			for(int x = 17; x < 19; x++){
+				occupiedCells[y][x] = true;
+			}
+			for(int x = 20; x < 22; x++){
+				occupiedCells[y][x] = true;
+			}
+			for(int x = 25; x < 27; x++){
+				occupiedCells[y][x] = true;
+			}
+		}
+		for(int y = 25; y < 27; y++){
+			for(int x = 27; x < 30; x++){
+				occupiedCells[y][x] = true;
+			}
+			occupiedCells[y][13] = true;
+			occupiedCells[y][19] = true;
+		}
 		ProductService productService = new ProductService();
 		products = productService.getProducts();
 //		List<Point> allpoints = new ArrayList<Point>();
