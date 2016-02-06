@@ -34,8 +34,6 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public List<Employee> employees;
 	public List<Checkout> checkouts;
 	List<ProductModel> products;
-	//maps a product id to a location
-	HashMap<Integer,Point[]> productLocations;
 	
 	public Simulator(SupermarketPanel panel, SupermarketFrame frame){
 		simulationRunning = false;
@@ -47,13 +45,16 @@ public class Simulator extends SwingWorker<Void,Void>{
 		customers = new ArrayList<Customer>();
 		employees = new ArrayList<Employee>();
 		checkouts = new ArrayList<Checkout>();
+		products = new ArrayList<ProductModel>();
 	}
 	
 	/**
 	 * Background thread for processing, called by the execute method
 	 */
 	public Void doInBackground(){
+		System.out.println("before");
 		simpleInitApp();
+		System.out.println("after");
 		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
@@ -159,16 +160,16 @@ public class Simulator extends SwingWorker<Void,Void>{
 //			for(int x = 0; x < NUMCELLSX; x++)
 //				allpoints.add(new Point(x,y));
 		customers.add(new Student(this, 8, 8));
-		customers.add(new Podge(this, 8, 12));
-		AStar astar = new AStar(this);
-		Customer customer = customers.get(0);
-		List<Point> shortestRoute = astar.computeShortestPath(new Point((int)customer.x, (int)customer.y), new Point(24,24));
-		customer.setRoute(shortestRoute);
-		Customer customer2 = customers.get(1);
-		List<Point> shortestRoute2 = astar.computeShortestPath(new Point((int)customer2.x, (int)customer2.y), new Point(25,25));
-		customer2.setRoute(shortestRoute2);
-		addCheckout(new Checkout("ha bieeer"));
-		addCheckout(new Checkout("lekkuur"));
+//		customers.add(new Podge(this, 8, 12));
+//		AStar astar = new AStar(this);
+//		Customer customer = customers.get(0);
+//		List<Point> shortestRoute = astar.computeShortestPath(new Point((int)customer.x, (int)customer.y), new Point(24,24));
+//		customer.setRoute(shortestRoute);
+//		Customer customer2 = customers.get(1);
+//		List<Point> shortestRoute2 = astar.computeShortestPath(new Point((int)customer2.x, (int)customer2.y), new Point(25,25));
+//		customer2.setRoute(shortestRoute2);
+//		addCheckout(new Checkout("ha bieeer"));
+//		addCheckout(new Checkout("lekkuur"));
 //		AStar astar = new AStar(this);
 //		System.out.println(astar.computeShortestPath(new Point(16,0), new Point(16,22)));
 //		for(int y = 0; y < NUMCELLSY; y ++)
@@ -201,6 +202,8 @@ public class Simulator extends SwingWorker<Void,Void>{
 	private void simpleUpdate(double delta, long updateTime){
 		//spawn customers
 		possiblySpawnRandomCustomer(delta);
+		
+		
 		//move customers
 		for(Customer customer : customers){
 			customer.move(delta,updateTime);
@@ -229,21 +232,29 @@ public class Simulator extends SwingWorker<Void,Void>{
 		if(spawnPoint == null)
 			return;
 		//spawn random customer
-		int customerType = r.nextInt(4);
+		System.out.println("Possibly spawn random customer");
+		Group[] groups = Group.values();
+		Group customerType = groups[r.nextInt(groups.length)];
+		Customer customer = null;
 		switch(customerType){
-			case 0:
-				customers.add(new Alcoholic(this, spawnPoint.x, spawnPoint.y));
+			case ALCOHOLIC:
+				customer = new Alcoholic(this, spawnPoint.x, spawnPoint.y);
 				break;
-			case 1:
-				customers.add(new Mother(this, spawnPoint.x, spawnPoint.y));
+			case MOTHER:
+				customer = new Mother(this, spawnPoint.x, spawnPoint.y);
 				break;
-			case 2:
-				customers.add(new Podge(this, spawnPoint.x, spawnPoint.y));
+			case PODGE:
+				customer = new Podge(this, spawnPoint.x, spawnPoint.y);
 				break;
-			case 3:
-				customers.add(new Student(this, spawnPoint.x, spawnPoint.y));
+			case STUDENT:
+				customer = new Student(this, spawnPoint.x, spawnPoint.y);
 				break;
+			default:
+				return;
 		}
+		//add products to shopping list
+		
+		customers.add(customer);
 	}
 	
 	private Point getRandomSpawnLocation(){
@@ -287,6 +298,9 @@ public class Simulator extends SwingWorker<Void,Void>{
 		frame.addSalesSlipToJList();
 	}
 	
+	public List<ProductModel> getProducts(){
+		return products;
+	}
 //	public void loadCheckouts(){
 //	}
 }

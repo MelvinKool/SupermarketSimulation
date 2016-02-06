@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Vector;
 
 import databasemanager.DBConnection;
+import supermarket.model.person.Group;
 import supermarket.model.product.ProductLocation;
 import supermarket.model.product.ProductModel;
 
@@ -32,24 +33,18 @@ public class ProductService {
 			rs = statement.executeQuery(getProductsQuery);
 			int lastIndex = -1;
 			while(rs.next()){
-				/*example: 
-				 *  |         6 | Wasbenzine          |     1 |    NULL |
-					|         7 | Gootsteenontstopper |     2 |    NULL |
-					|         8 | Wasverzachter       |     5 |    NULL |
-					|         9 | Ham-Kaas chips      |     2 |       1 |
-					|         9 | Ham-Kaas chips      |     2 |       4 |
-
-				 */
-				int currentIndex = rs.getInt(1);
-				if(currentIndex > lastIndex)
+				int productId = rs.getInt(1);
+				String productName = rs.getString(2);
+				double productPrice = rs.getDouble(3);
+				if(productId > lastIndex)
 				{
 					//insert new product
-					ProductModel product = new ProductModel();
+					ProductModel product = new ProductModel(productId,productName,productPrice);
 					products.add(product);
 					
 					//map product to locations
 					prodLocDep = con.prepareStatement(getProdLocDep);
-					prodLocDep.setInt(1, currentIndex);
+					prodLocDep.setInt(1, productId);
 					rsProdLocDep = prodLocDep.executeQuery();
 					while(rsProdLocDep.next()){
 						//add department location to product
@@ -59,10 +54,11 @@ public class ProductService {
 						if(productCoords.length > 0){
 							x = Integer.parseInt(productCoords[0]);
 							y = Integer.parseInt(productCoords[1]);
+							product.productLocations.add(new ProductLocation(x,y));
 						}
 					}
 					prodLocPath = con.prepareStatement(getProdLocPath);
-					prodLocPath.setInt(1, currentIndex);
+					prodLocPath.setInt(1, productId);
 					rsProdLocPath = prodLocPath.executeQuery();
 					while(rsProdLocPath.next()){
 						//add path location to product
@@ -75,14 +71,15 @@ public class ProductService {
 							product.productLocations.add(new ProductLocation(x,y));
 						}
 					}
-					lastIndex = currentIndex;
+					lastIndex = productId;
 				}
-				else if(currentIndex == lastIndex){
-					//insert group to last product
-					if(products.size() > 0){
-						int groupId = rs.getInt(4);
-						if(groupId != 0)
-							products.get(products.size() - 1).addGroupToProduct(groupId);
+				//insert group in product
+				if(products.size() > 0){
+					int groupId = rs.getInt(4);
+					Group[] groups = Group.values();
+					if(groupId != 0 && groupId <= groups.length){
+						Group group = groups[groupId - 1];
+						products.get(products.size() - 1).addGroupToProduct(group);
 					}
 				}
 			}

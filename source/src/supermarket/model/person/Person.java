@@ -48,7 +48,7 @@ public abstract class Person {
 		y+= delta / movementSpeed * diffY;
 		//if on the next tile, remove
 //		System.out.println((int)x + " " + nextPoint.x + " " + (int) y + " " + nextPoint.y);
-		if((int)x == nextPoint.x && (int) y == nextPoint.y){
+		if((int)x == nextPoint.x && (int)y == nextPoint.y){
 			route.remove(0);
 		}
 		//if the route is empty, the final waypoint has been reached

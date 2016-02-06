@@ -86,6 +86,12 @@ public class DBSetup {
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(1,4);");
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(1,9);");
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(1,13);");
+			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(2,1);");
+			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(2,2);");
+			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(2,3);");
+			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(2,6);");
+			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(2,7);");
+			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(2,8);");
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(3,11);");
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(3,12);");
 			statements.add("INSERT INTO Groep_Voorkeur_Product(groepid,productid) VALUES(3,13);");
@@ -119,7 +125,6 @@ public class DBSetup {
 			statements.add("INSERT INTO Product_Opgesteld_Afdeling(productid,afdelingid,gewicht,locatie) VALUES(15,2,"+defaultWeight+",'27,6');");
 			//execute all statements
 			for(String s : statements){
-				System.out.println(s);
 				statement.executeUpdate(s);
 			}
 			//add empty cash desks
