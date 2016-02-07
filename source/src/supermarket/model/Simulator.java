@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.zip.CheckedOutputStream;
 
@@ -187,12 +188,14 @@ public class Simulator extends SwingWorker<Void,Void>{
 			occupiedCells[wallY][x] = true;
 		}
 		occupiedCells[wallY][10] = true;
+		occupiedCells[23][18] = false;
+		occupiedCells[23][20] = false;
 		ProductService productService = new ProductService();
 		products = productService.getProducts();
-		cashDesks.add(new CashDesk(15,23));
-		cashDesks.add(new CashDesk(16,23));
-		cashDesks.add(new CashDesk(22,23));
-		cashDesks.add(new CashDesk(24,23));
+		cashDesks.add(new CashDesk(15,23,13,23));
+		cashDesks.add(new CashDesk(16,23,18,23));
+		cashDesks.add(new CashDesk(22,23,20,23));
+		cashDesks.add(new CashDesk(24,23,26,23));
 //		//spawn employees
 		employees.add(new Employee(this,29,6));
 		employees.add(new Employee(this,29,7));
@@ -204,7 +207,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 //		for(int y = 0; y < NUMCELLSY; y ++)
 //			for(int x = 0; x < NUMCELLSX; x++)
 //				allpoints.add(new Point(x,y));
-//		customers.add(new Student(this, 8, 8));
+		customers.add(new Student(this, 8, 8));
 //		customers.add(new Podge(this, 8, 12));
 //		AStar astar = new AStar(this);
 //		Customer customer = customers.get(0);
@@ -253,9 +256,19 @@ public class Simulator extends SwingWorker<Void,Void>{
 		for(Customer customer : customers){
 			customer.move(delta,updateTime);
 		}
+		//move employees
+		for(Employee employee : employees){
+			employee.move(delta,updateTime);
+		}
 		//check if product paths or departments need refilling
+		
 		//check if a new cash desk needs to be opened
-		//check if products need to be ordered
+		long openCashdesks = cashDesks.stream().filter(c->c.isOpen() || c.employeeComing).count();
+		int goalOpenCashDesks = customers.size() / 5;
+		if(openCashdesks < 1 || (openCashdesks < goalOpenCashDesks && goalOpenCashDesks < cashDesks.size())){
+			//open new cash desk
+			openCashDesk();
+		}
 	}
 	
 	/**
@@ -346,6 +359,28 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public List<ProductModel> getProducts(){
 		return products;
 	}
+	
+	private void openCashDesk(){
+		//find employee who is not busy
+		try{
+			CashDesk deskToOpen = cashDesks.stream().filter(c->!c.isOpen() && !c.employeeComing).findFirst().get();
+			Employee notBusyEmployee = employees.stream().filter(e->!e.isBusy()).findAny().get();
+			//send employee to the cashdesk
+			notBusyEmployee.goToCashDesk(deskToOpen);
+		}
+		catch(NoSuchElementException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean supermarketIsOpen(){
+		return supermarketOpen;
+	}
+	
+	public void openSupermarket(){
+		supermarketOpen = true;
+	}
+	
 //	public void loadCheckouts(){
 //	}
 }
