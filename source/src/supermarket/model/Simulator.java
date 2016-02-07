@@ -14,6 +14,8 @@ import java.util.zip.CheckedOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
 
+import com.sun.org.apache.xml.internal.dtm.ref.CustomStringPool;
+
 import databasemanager.DBConnection;
 import databasemanager.DBSetup;
 import databasemanager.services.ProductService;
@@ -250,11 +252,15 @@ public class Simulator extends SwingWorker<Void,Void>{
 	private void simpleUpdate(double delta, long updateTime){
 		if(supermarketOpen){
 			//spawn customers
-			possiblySpawnRandomCustomer(delta);
+//			possiblySpawnRandomCustomer(delta);
 		}
 		//move customers
-		for(Customer customer : customers){
+		for(int i = 0; i < customers.size(); i++){
+			Customer customer = customers.get(i);
 			customer.move(delta,updateTime);
+			if(customer.leavedSuperMarket){
+				customers.remove(i);
+			}
 		}
 		//move employees
 		for(Employee employee : employees){
@@ -381,6 +387,9 @@ public class Simulator extends SwingWorker<Void,Void>{
 		supermarketOpen = true;
 	}
 	
+	public void removeCustomer(Customer customer){
+		customers.remove(customer);
+	}
 //	public void loadCheckouts(){
 //	}
 }

@@ -19,6 +19,7 @@ public abstract class Customer extends Person{
 	List<ShoppingListItem> shoppingCart;
 	boolean leavingSuperMarket;
 	boolean goingToCheckout;
+	public boolean leavedSuperMarket;
 	public Customer(Simulator simulator, double spawnX, double spawnY){
 		super(simulator, spawnX, spawnY);
 		this.shoppingList = new ArrayList<ShoppingListItem>();
@@ -69,13 +70,13 @@ public abstract class Customer extends Person{
 			System.out.println("Do a checkout");
 			checkout();
 			leavingSuperMarket = true;
+			goingToCheckout = false;
 			//exit route
 			newRoute = astar.computeShortestPath(new Point((int)x, (int)y), new Point(2,29));
 		}
 		else if(leavingSuperMarket){
 			System.out.println("Leave");
-			//remove this customer from the list of customers
-			simulator.customers.remove(this);
+			leavedSuperMarket = true;
 		}
 		//go to new waypoint
 		if(newRoute != null)
