@@ -7,9 +7,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import supermarket.model.Simulator;
+import supermarket.model.cashdesk.CashDesk;
 import supermarket.model.product.NoRemainingProductException;
 import supermarket.model.product.ProductLocation;
 import supermarket.model.product.ProductModel;
+import supermarket.model.product.ProductType;
 import supermarket.model.product.ShoppingListItem;
 
 public abstract class Customer extends Person{
@@ -58,7 +60,7 @@ public abstract class Customer extends Person{
 			else{
 				goingToCheckout = true;
 				//cash desk route
-				newRoute = astar.computeShortestPath(new Point((int)x, (int)y), new Point(15,25));
+				newRoute = walkToCashDesk();
 				System.out.println("done...");
 			}
 		}
@@ -109,7 +111,11 @@ public abstract class Customer extends Person{
 			ProductModel randomProduct = getRandomProduct(preferredProducts);
 			if(!shoppingList.stream().anyMatch(p->p.product == randomProduct)){
 				Random r = new Random();
-				int amount = r.nextInt(4);
+				int amount; 
+				if(randomProduct.productLocations.stream().anyMatch(p->p.getProductType() == ProductType.PATH))
+					amount = r.nextInt(4);
+				else
+					amount = r.nextInt(500);
 				shoppingList.add(new ShoppingListItem(randomProduct, amount));
 				System.out.println("adding product...");
 			}
@@ -147,5 +153,17 @@ public abstract class Customer extends Person{
 			group = Group.STUDENT;
 		}
 		return group;
+	}
+	
+	private List<Point> walkToCashDesk(){
+		List<Point> cashDeskRoute = null;
+		List<CashDesk> openCashDesks = simulator.cashDesks.stream().filter(c -> c.isOpen()).collect(Collectors.toList());
+		if(openCashDesks.size() > 0){
+			Random r = new Random();
+			int goToCashDesk = r.nextInt(openCashDesks.size());
+			CashDesk goalCashDesk = openCashDesks.get(goToCashDesk);
+			cashDeskRoute = astar.computeShortestPath(new Point((int)x, (int)y), new Point(goalCashDesk.x,goalCashDesk.y));
+		}
+		return cashDeskRoute;
 	}
 }

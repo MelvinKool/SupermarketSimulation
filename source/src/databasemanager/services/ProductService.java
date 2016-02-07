@@ -13,6 +13,7 @@ import databasemanager.DBConnection;
 import supermarket.model.person.Group;
 import supermarket.model.product.ProductLocation;
 import supermarket.model.product.ProductModel;
+import supermarket.model.product.ProductType;
 
 public class ProductService {
 	
@@ -54,7 +55,7 @@ public class ProductService {
 						if(productCoords.length > 0){
 							x = Integer.parseInt(productCoords[0]);
 							y = Integer.parseInt(productCoords[1]);
-							product.productLocations.add(new ProductLocation(x,y));
+							product.productLocations.add(new ProductLocation(x,y, ProductType.DEPARTMENT));
 						}
 					}
 					prodLocPath = con.prepareStatement(getProdLocPath);
@@ -68,7 +69,7 @@ public class ProductService {
 						if(productCoords.length > 0){
 							x = Double.parseDouble(productCoords[0]);
 							y = Double.parseDouble(productCoords[1]);
-							product.productLocations.add(new ProductLocation(x,y));
+							product.productLocations.add(new ProductLocation(x,y, ProductType.PATH));
 						}
 					}
 					lastIndex = productId;

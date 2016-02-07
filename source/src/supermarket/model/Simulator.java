@@ -19,6 +19,7 @@ import databasemanager.services.ProductService;
 import supermarket.view.SupermarketFrame;
 import supermarket.view.SupermarketPanel;
 import supermarket.model.astar.AStar;
+import supermarket.model.cashdesk.CashDesk;
 import supermarket.model.person.*;
 import supermarket.model.product.ProductModel;
 
@@ -33,7 +34,9 @@ public class Simulator extends SwingWorker<Void,Void>{
 	public List<Customer> customers;
 	public List<Employee> employees;
 	public List<Checkout> checkouts;
+	public List<CashDesk> cashDesks;
 	List<ProductModel> products;
+	boolean supermarketOpen;
 	
 	public Simulator(SupermarketPanel panel, SupermarketFrame frame){
 		simulationRunning = false;
@@ -46,6 +49,7 @@ public class Simulator extends SwingWorker<Void,Void>{
 		employees = new ArrayList<Employee>();
 		checkouts = new ArrayList<Checkout>();
 		products = new ArrayList<ProductModel>();
+		cashDesks = new ArrayList<CashDesk>();
 	}
 	
 	/**
@@ -178,13 +182,29 @@ public class Simulator extends SwingWorker<Void,Void>{
 			occupiedCells[y][13] = true;
 			occupiedCells[y][19] = true;
 		}
+		int wallY = 22;
+		for(int x = 0; x < 6; x++){
+			occupiedCells[wallY][x] = true;
+		}
+		occupiedCells[wallY][10] = true;
 		ProductService productService = new ProductService();
 		products = productService.getProducts();
+		cashDesks.add(new CashDesk(15,23));
+		cashDesks.add(new CashDesk(16,23));
+		cashDesks.add(new CashDesk(22,23));
+		cashDesks.add(new CashDesk(24,23));
+//		//spawn employees
+		employees.add(new Employee(this,29,6));
+		employees.add(new Employee(this,29,7));
+		employees.add(new Employee(this,29,8));
+		employees.add(new Employee(this,29,9));
+		employees.add(new Employee(this,28,8));
+		employees.add(new Employee(this,28,9));
 //		List<Point> allpoints = new ArrayList<Point>();
 //		for(int y = 0; y < NUMCELLSY; y ++)
 //			for(int x = 0; x < NUMCELLSX; x++)
 //				allpoints.add(new Point(x,y));
-		customers.add(new Student(this, 8, 8));
+//		customers.add(new Student(this, 8, 8));
 //		customers.add(new Podge(this, 8, 12));
 //		AStar astar = new AStar(this);
 //		Customer customer = customers.get(0);
@@ -225,10 +245,10 @@ public class Simulator extends SwingWorker<Void,Void>{
 	 * of time between updates.
 	 */
 	private void simpleUpdate(double delta, long updateTime){
-		//spawn customers
-		possiblySpawnRandomCustomer(delta);
-		
-		
+		if(supermarketOpen){
+			//spawn customers
+			possiblySpawnRandomCustomer(delta);
+		}
 		//move customers
 		for(Customer customer : customers){
 			customer.move(delta,updateTime);

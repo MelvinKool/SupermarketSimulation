@@ -19,4 +19,13 @@ public class Employee extends Person{
 		System.out.println("Employee reached final destination");
 		//fill product?
 	}
+	
+	public void startFilling(){
+		
+	}
+	
+	public void sitAtCashDesk(){
+		
+	}
+	
 }
